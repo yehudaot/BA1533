@@ -1,0 +1,111 @@
+//--------- ADF4350 handling functions -------------------------
+
+ULONG  PLL1_int, PLL1_frac, PLL1_mod, PLL1_frequency, PLL1_RFdiv;
+/*
+#define PLL1_CLK       PIN_C2
+#define PLL1_DAT       PIN_C3
+#define PLL1_LAT       PIN_C1
+*/
+
+void PLL1_send_bits(UCHAR data)
+  {
+  UCHAR count;
+  for (count = 8; count ; count--, data <<= 1)
+    {
+    if (data & 0X80)
+      output_high(PLL1_DAT);
+    else
+      output_low(PLL1_DAT);
+    delay_us(10);
+    output_high(PLL1_CLK);
+    delay_us(10);
+    output_low(PLL1_CLK);
+
+    delay_us(25);
+    }
+  output_low(PLL1_DAT);
+  output_low(PLL1_CLK);
+  }
+
+void PLL1_send_word(ULONG prog)
+  {
+  restart_wdt();
+  disable_interrupts(GLOBAL);
+  PLL1_send_bits(make8(prog, 3));               // send LSB
+  PLL1_send_bits(make8(prog, 2));               // send LSB
+  PLL1_send_bits(make8(prog, 1));               // send middle byte
+  PLL1_send_bits(make8(prog, 0));               // send MSB
+  delay_us(40);
+  output_high(PLL1_LAT);                 // latch 24 bits into register
+  delay_us(5);
+  output_low(PLL1_LAT);                 // latch 24 bits into register
+  output_low(PLL1_DAT);                 // latch 24 bits into register
+  enable_interrupts(GLOBAL);
+  restart_wdt();
+  }
+
+//                                    R0          R1            R2          R3           R4           R5
+const ULONG PLL1_REGISTERS[6] = { 0x00DC0000L, 0x08008321L, 0x18005EC2L, 0x000004B3L, 0x0085003CL, 0x00580005L };
+
+void PLL1_initialize(void)
+  {
+  ULONG prog;
+  UCHAR idx, count;
+  for (count = 0, idx = 5; count < 6; count++, idx--)
+    {
+    prog = PLL1_REGISTERS[idx];
+    prog |= (ULONG)idx;
+    PLL1_send_word(prog);
+    }
+  delay_ms(250);
+  PLL1_send_word(prog);
+  delay_ms(250);
+  }
+
+//--------- frequency computation functions --------------------
+void PLL1_compute_freq_parameters(UINT Frequest)
+  {
+  ULONG Fvco, D;
+  restart_wdt();
+  D = Frequest;
+  D -= FREQ_IF;
+  D /= 2;
+  PLL1_RFdiv = 0x0095003CL;
+  restart_wdt();
+  D = D * FREQ_STEP;
+  restart_wdt();
+  PLL1_int = D / FREQ_OSC;
+  restart_wdt();
+  PLL1_frac = (D - (PLL1_int * FREQ_OSC)) / (FREQ_STEP * RFdiv);
+  PLL1_mod = 0x08000000L + (FREQ_MOD << 3) + 1L;
+  restart_wdt();
+  Fvco++;
+  }
+
+
+void PLL1_update(void)
+  {
+  ULONG prog;
+  prog = (PLL1_int << 15) + (PLL1_frac << 3); // N counter latch
+  PLL1_frequency = prog;
+  restart_wdt();
+  PLL1_send_word(prog);
+  delay_us(20);
+  restart_wdt();
+  PLL1_send_word(PLL1_mod);
+  delay_us(20);
+  restart_wdt();
+  PLL1_send_word(PLL1_RFdiv);
+
+  }
+
+#separate
+void PLL1_reset(void)
+  {
+  output_low(PLL1_DAT);
+  output_low(PLL1_CLK);
+  delay_us(1000);
+  PLL1_initialize();
+  }
+
+

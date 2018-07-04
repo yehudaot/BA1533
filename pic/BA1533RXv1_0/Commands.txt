@@ -1,0 +1,17 @@
+
+
+$F <frequency><cr>      Set frequency in 1MHz increments (i.e.2250 is 2.250GHz)
+$ON <onoff><cr>         Set full operation on(1) or off(0)
+$PS <power><cr>         Set amp power on(1) or off(0)
+$P <level><cr>          Set power level high(1) or low(0)
+$LD <fwd><cr>           Set Fwd power measurement on(1) or off(0)
+$Q<cr>                  Request status
+
+$SN <idx><level><cr>    Set negative level at 0 or 1
+$SP <idx><level><cr>    Set positive level at 0 or 1
+$1 <year><cr>           Set unit year
+$2 <week><cr>           Set unit week
+$3 <unit ID><cr>        Set unit ID
+$SV<cr>                 Save parameters
+
+$H<cr>                  Show help
