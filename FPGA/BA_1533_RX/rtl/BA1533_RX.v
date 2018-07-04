@@ -42,6 +42,13 @@ output led2;
 output led3;
 output led4;
 
+reg rx_bit_data_s1;
+reg rx_bit_data_s2;
+reg rx_bit_data_s3;
+reg rx_bit_data_s4;
+reg rx_bit_data_deru;
+reg rx_bit_data_derl;
+reg clk_der;
 
 wire [7:0]from_uart_data;
 wire from_uart_valid;
@@ -50,17 +57,12 @@ wire [7:0] to_uart_data;
 wire to_uart_ready;
 wire to_uart_txd;
 
-//wire [7:0] reg_data;	
-//wire [19:0] max_rx_count;
 wire rx_started_flag;
 
 reg rst = 1'b0;
 wire clk25MHz;
 wire clk9MHz;
-wire clk4_5MHz;
 wire clk90MHz;
-
-//wire rx_bit_data;
 
 assign UART_TXD = to_uart_txd;
 assign led1 = rx_started_flag;		//LED active high
@@ -68,16 +70,11 @@ assign led2 = rx_started_flag;
 assign led3 = rx_started_flag;
 assign led4 = 1'b1;
 
-//assign rx_bit_data = clk4_5MHz;
-
-
 rx_pll rx_pll_c(
 		.inclk0				(clk),
 		.c0					(clk25MHz),
 		.c1					(clk9MHz),
-		.c2					(clk4_5MHz),
-		.c3					(clk90MHz)
-		
+		.c2					(clk90MHz)
 );
 
 uart_mcu uart_mcu_c (
@@ -100,35 +97,23 @@ uart_control uart_control_c(
 		.clk             	(clk25MHz), //(clk25MHz),             
 		.rst           	(1'b0), 
 		.from_uart_valid	(from_uart_valid),
-		.from_uart_data	(from_uart_data),
-		//.max_rx_count		(max_rx_count),
-		.reg_data			()
+		.from_uart_data	(from_uart_data)
 );
 	
-wire [23:0] pass_percentage;	
 
 rx rx_c (
 		.clk9MHz       (clk9MHz),    //(clk9MHz),             //                        clk.clk
 		.rst           (1'b0), 
 		.rx_bit_data	(rx_bit_data_s2),
-		//.reg_data		(reg_data),
 		.to_uart_valid	(to_uart_valid),
 		.to_uart_data	(to_uart_data),
-		.fail(),															//for debug remove later
-		.pass_percentage(pass_percentage),						//for debug remove later
-		.shift_temp(),
 		.rx_started_flag (rx_started_flag),
-		.clk9MHz_offset10(clk9MHz_offset10),
-		.clk9MHz_offset20(clk9MHz_offset20),
-		.clk9MHz_offset30(clk9MHz_offset30),
-		.clk9MHz_offset60(clk9MHz_offset60),
-		.rx_bit_data_shift_reg (),
-		.rx_bit_data_shift_reg_d (),
 		.rx_bit_data_deru(rx_bit_data_deru),
 		.rx_bit_data_derl(rx_bit_data_derl),
-		.clk90MHz(clk90MHz),
-		.clk_der(clk_der)
+		.clk_der(clk_der),
+		.fail()
 );
+
 
 
 //synchronize to_uart_valid signal
@@ -175,14 +160,7 @@ always@(posedge clk25MHz or posedge rst) begin
 end
 
 
-reg rx_bit_data_s1;
-reg rx_bit_data_s2;
-reg rx_bit_data_s3;
-reg rx_bit_data_s4;
-reg rx_bit_data_deru;
-reg rx_bit_data_derl;
-reg clk_der;
-//clk9MHz
+
 always@(posedge clk90MHz or posedge rst) begin
 	if(rst) begin
 		rx_bit_data_s1 <= 1'b0;
@@ -232,30 +210,4 @@ always@(posedge clk90MHz or posedge rst) begin
 end
 
 
-reg clk9MHz_offset10;
-reg clk9MHz_offset20;
-reg clk9MHz_offset30;
-reg clk9MHz_offset40;
-reg clk9MHz_offset50;
-reg clk9MHz_offset60;
-
-always@(posedge clk90MHz or posedge rst) begin
-	if(rst) begin
-		clk9MHz_offset10 <= 1'b0;
-		clk9MHz_offset20 <= 1'b0;
-		clk9MHz_offset30 <= 1'b0;
-	end
-	else begin
-		clk9MHz_offset10 <= clk9MHz;
-		clk9MHz_offset20 <= clk9MHz_offset10;
-		clk9MHz_offset30 <= clk9MHz_offset20;
-		clk9MHz_offset40 <= clk9MHz_offset30;
-		clk9MHz_offset50 <= clk9MHz_offset40;
-		clk9MHz_offset60 <= clk9MHz_offset50;
-	end
-end
-
-
-
 endmodule
-

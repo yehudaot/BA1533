@@ -5,13 +5,9 @@
 
 module tx (
 clk, 
-//reg_data, 
 tx_bit_data, 
 rst, 
-//max_tx_count,
 max_tx_flag
-//bit_mode_en_deru,
-//bit_mode_en,
 );
 
 input clk;
@@ -21,8 +17,8 @@ output reg max_tx_flag = 1'b0;
 
 reg [2:0] index = 3'h7;
 reg [31:0] tx_count = 32'h0;
-reg [7:0] reg_data = 8'h9A;
-reg [31:0] max_tx_count = 32'h4C4B400;		//10 milion bytes
+reg [7:0] reg_data = 8'hAA;
+reg [31:0] max_tx_count = 32'h4C4B400;		//80 milion Bits
 
 
 //////use this block in case of counting the transmitted data and blocking transmitting data after a counted of data transmitted//////

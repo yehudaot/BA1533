@@ -1,5 +1,5 @@
 PLL_Name	tx_pll:tx_pll_c|altpll:altpll_component|tx_pll_altpll:auto_generated|pll1
-PLLJITTER	37
+PLLJITTER	96
 PLLSPEmax	84
 PLLSPEmin	-53
 

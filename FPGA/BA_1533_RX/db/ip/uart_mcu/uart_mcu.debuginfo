@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="uart_mcu" kind="system" version="15.1" fabric="QSYS">
  <!-- Format version 15.1 185 (Future versions may contain additional information.) -->
- <!-- 2018.07.03.13:00:34 -->
+ <!-- 2018.07.04.18:21:56 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -13,7 +13,7 @@
  </parameter>
  <parameter name="device">
   <type>java.lang.String</type>
-  <value>5CSEMA4U23C6</value>
+  <value>10M08SAU169I7G</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -21,7 +21,7 @@
  </parameter>
  <parameter name="deviceFamily">
   <type>java.lang.String</type>
-  <value>CYCLONEV</value>
+  <value>MAX10FPGA</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -29,7 +29,7 @@
  </parameter>
  <parameter name="deviceSpeedGrade">
   <type>java.lang.String</type>
-  <value>6</value>
+  <value>7</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1530612028</value>
+  <value>1530717707</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -204,7 +204,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="AUTO_DEVICE_FAMILY">
    <type>java.lang.String</type>
-   <value>CYCLONEV</value>
+   <value>MAX10FPGA</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -223,7 +223,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
-   <value>Cyclone V</value>
+   <value>MAX 10</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -737,5 +737,5 @@ parameters are a RESULT of the module parameters. -->
   <version>15.1</version>
  </plugin>
  <reportVersion>15.1 185</reportVersion>
- <uniqueIdentifier>40A3CC7DCADE000001645F9628FE</uniqueIdentifier>
+ <uniqueIdentifier>40A3CC7DCADE0000016465E2BBA3</uniqueIdentifier>
 </EnsembleReport>

@@ -1,20 +1,18 @@
-Fitter Status : Successful - Tue Jul 03 13:02:52 2018
+Fitter Status : Successful - Wed Jul 04 18:24:18 2018
 Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
 Revision Name : BA1533_RX
 Top-level Entity Name : BA1533_RX
-Family : Cyclone V
-Device : 5CSEMA4U23C6
+Family : MAX 10
+Device : 10M08SAU169I7G
 Timing Models : Final
-Logic utilization (in ALMs) : 1,532 / 15,880 ( 10 % )
-Total registers : 3729
-Total pins : 8 / 314 ( 3 % )
+Total logic elements : 4,880 / 8,064 ( 61 % )
+    Total combinational functions : 2,434 / 8,064 ( 30 % )
+    Dedicated logic registers : 3,699 / 8,064 ( 46 % )
+Total registers : 3699
+Total pins : 8 / 130 ( 6 % )
 Total virtual pins : 0
-Total block memory bits : 189,440 / 2,764,800 ( 7 % )
-Total RAM Blocks : 20 / 270 ( 7 % )
-Total DSP Blocks : 2 / 84 ( 2 % )
-Total HSSI RX PCSs : 0
-Total HSSI PMA RX Deserializers : 0
-Total HSSI TX PCSs : 0
-Total HSSI PMA TX Serializers : 0
-Total PLLs : 1 / 5 ( 20 % )
-Total DLLs : 0 / 4 ( 0 % )
+Total memory bits : 194,560 / 387,072 ( 50 % )
+Embedded Multiplier 9-bit elements : 4 / 48 ( 8 % )
+Total PLLs : 1 / 1 ( 100 % )
+UFM blocks : 0 / 1 ( 0 % )
+ADC blocks : 0 / 1 ( 0 % )

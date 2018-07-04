@@ -2,20 +2,21 @@ module uart_control (
 rst, 
 clk, 
 from_uart_valid, 
-from_uart_data, 
-reg_data
+from_uart_data 
+//reg_data
 );
 
 input clk;
 input rst;
 input from_uart_valid;
 input [7:0] from_uart_data;
-output reg [7:0] reg_data = 8'h9A;
+//output reg [7:0] reg_data = 8'h9A;
 
 reg [7:0] uart_data;
 reg [3:0] state;
 reg [7:0] new_rx_max_count;
 reg [7:0] new_reg_data;
+reg [7:0] reg_data = 8'h9A;
 //reg [23:0] max_rx_count = 20'h989680;
 
 

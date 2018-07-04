@@ -11,7 +11,7 @@
    <SOPCModuleParameter>
     <C>2</C>
     <Name>DESIGN_HASH</Name>
-    <Value>446edb6905637678e2f5</Value>
+    <Value>13b0aac959a4a9f859ac</Value>
    </SOPCModuleParameter>
    <SOPCModuleParameter>
     <C>3</C>
@@ -61,7 +61,7 @@
    <SOPCModuleParameter>
     <C>12</C>
     <Name>DEVICE_FAMILY</Name>
-    <Value>Cyclone V</Value>
+    <Value>MAX 10</Value>
    </SOPCModuleParameter>
    <SOPCModuleParameter>
     <C>13</C>
@@ -74,7 +74,7 @@
     <Value>Unknown</Value>
    </SOPCModuleParameter>
   </SOPCModule>
-  <SystemID>1603691110</SystemID>
+  <SystemID>1709387674</SystemID>
  </SOPCSystem>
  <SchemaVersion>schema_2013-01-18</SchemaVersion>
 </ProgramExecution>

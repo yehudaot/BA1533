@@ -2,7 +2,7 @@
   <sld_infos>
     <sld_info hpath="uart_mcu:uart_mcu_c" name="uart_mcu_c">
       <assignment_values>
-        <assignment_value text="QSYS_NAME uart_mcu HAS_SOPCINFO 1 GENERATION_ID 1530612028"/>
+        <assignment_value text="QSYS_NAME uart_mcu HAS_SOPCINFO 1 GENERATION_ID 1530717707"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="sld_hub:auto_hub|alt_sld_fab:\instrumentation_fabric_with_node_gen:instrumentation_fabric" library="alt_sld_fab" name="instrumentation_fabric">

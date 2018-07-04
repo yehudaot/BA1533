@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2018.07.03.13:00:34"
- outputDirectory="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/">
+ date="2018.07.04.18:21:56"
+ outputDirectory="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/">
  <perimeter>
   <parameter
      name="AUTO_GENERATION_ID"
@@ -107,44 +107,44 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="uart_mcu:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=5CSEMA4U23C6,AUTO_DEVICE_FAMILY=Cyclone V,AUTO_DEVICE_SPEEDGRADE=6,AUTO_GENERATION_ID=1530612028,AUTO_UNIQUE_ID=(altera_up_avalon_rs232:15.1:AUTO_CLK_CLOCK_RATE=0,AUTO_DEVICE_FAMILY=Cyclone V,avalon_bus_type=Streaming,baud=9600,clk_rate=25000000,data_bits=8,parity=None,stop_bits=1)"
+   parameterizationKey="uart_mcu:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10M08SAU169I7G,AUTO_DEVICE_FAMILY=MAX 10,AUTO_DEVICE_SPEEDGRADE=7,AUTO_GENERATION_ID=1530717707,AUTO_UNIQUE_ID=(altera_up_avalon_rs232:15.1:AUTO_CLK_CLOCK_RATE=0,AUTO_DEVICE_FAMILY=MAX 10,avalon_bus_type=Streaming,baud=9600,clk_rate=25000000,data_bits=8,parity=None,stop_bits=1)"
    instancePathKey="uart_mcu"
    kind="uart_mcu"
    version="1.0"
    name="uart_mcu">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1530612028" />
-  <parameter name="AUTO_DEVICE" value="5CSEMA4U23C6" />
-  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_GENERATION_ID" value="1530717707" />
+  <parameter name="AUTO_DEVICE" value="10M08SAU169I7G" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
   <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="-1" />
   <parameter name="AUTO_UNIQUE_ID" value="" />
-  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="6" />
+  <parameter name="AUTO_DEVICE_SPEEDGRADE" value="7" />
   <generatedFiles>
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/uart_mcu.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/uart_mcu.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v"
        type="VERILOG" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/uart_mcu.qsys" />
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/uart_mcu.qsys" />
   </sourceFiles>
   <childSourceFiles>
    <file
@@ -180,7 +180,7 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="altera_up_avalon_rs232:15.1:AUTO_CLK_CLOCK_RATE=0,AUTO_DEVICE_FAMILY=Cyclone V,avalon_bus_type=Streaming,baud=9600,clk_rate=25000000,data_bits=8,parity=None,stop_bits=1"
+   parameterizationKey="altera_up_avalon_rs232:15.1:AUTO_CLK_CLOCK_RATE=0,AUTO_DEVICE_FAMILY=MAX 10,avalon_bus_type=Streaming,baud=9600,clk_rate=25000000,data_bits=8,parity=None,stop_bits=1"
    instancePathKey="uart_mcu:.:rs232_0"
    kind="altera_up_avalon_rs232"
    version="15.1"
@@ -192,22 +192,22 @@
   <parameter name="data_bits" value="8" />
   <parameter name="clk_rate" value="25000000" />
   <parameter name="parity" value="None" />
-  <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone V" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="MAX 10" />
   <generatedFiles>
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v"
        type="VERILOG" />
    <file
-       path="C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v"
+       path="C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_RX/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles/>

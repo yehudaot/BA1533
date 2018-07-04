@@ -1,12 +1,12 @@
-PowerPlay Power Analyzer Status : Successful - Tue Jul 03 13:03:27 2018
+PowerPlay Power Analyzer Status : Successful - Wed Jul 04 18:24:59 2018
 Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
 Revision Name : BA1533_RX
 Top-level Entity Name : BA1533_RX
-Family : Cyclone V
-Device : 5CSEMA4U23C6
+Family : MAX 10
+Device : 10M08SAU169I7G
 Power Models : Final
-Total Thermal Power Dissipation : 364.26 mW
-Core Dynamic Thermal Power Dissipation : 40.42 mW
-Core Static Thermal Power Dissipation : 319.17 mW
-I/O Thermal Power Dissipation : 4.68 mW
+Total Thermal Power Dissipation : 253.50 mW
+Core Dynamic Thermal Power Dissipation : 127.04 mW
+Core Static Thermal Power Dissipation : 121.42 mW
+I/O Thermal Power Dissipation : 5.05 mW
 Power Estimation Confidence : Low: user provided insufficient toggle rate data

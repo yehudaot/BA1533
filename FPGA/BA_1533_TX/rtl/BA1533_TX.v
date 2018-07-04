@@ -42,9 +42,6 @@ output led4;
 
 wire [7:0] from_uart_data;
 wire from_uart_valid;
-/////////////wire to_uart_valid;
-/////////wire [7:0] to_uart_data;
-////////////wire to_uart_ready;
 wire to_uart_txd;
 wire [7:0] reg_data;		
 
@@ -73,8 +70,6 @@ tx tx_c (
 		.clk            	(clk9MHz),             //clk 9.07MHz 
 		.rst           	(1'b0),
 		.tx_bit_data		(tx_bit_data),
-		//.max_tx_count		(max_tx_count)
-		//.reg_data			(reg_data),
 		.max_tx_flag		(max_tx_flag)
 );
 
@@ -83,13 +78,11 @@ uart_control uart_control_c(
 		.clk             	(clk25MHz),             
 		.rst           	(1'b0), 
 		.from_uart_valid	(from_uart_valid),
-		.from_uart_data	(from_uart_data),
-		.max_tx_count		(),					//max_tx_count
-		.reg_data			()						//reg_data
+		.from_uart_data	(from_uart_data)
 );
 
 		uart_mcu uart_mcu_c (
-		.clk             (clk25MHz),             //                        clk.clk
+		.clk             (clk25MHz),        //                        clk.clk
 		.reset           (1'b0),            //                      reset.reset
 		.UART_RXD        (~UART_RXD),       //         external_interface.RXD
 		.UART_TXD        (to_uart_txd),     //                           .TXD
@@ -97,10 +90,10 @@ uart_control uart_control_c(
 		.from_uart_data  (from_uart_data),  //                           .data
 		.from_uart_error (), 					//                           .error
 		.from_uart_valid (from_uart_valid), //                           .valid
-		.to_uart_data    (),    //  avalon_data_transmit_sink.data
+		.to_uart_data    (),    				//  avalon_data_transmit_sink.data
 		.to_uart_error   (),   					//                           .error
-		.to_uart_valid   (),   //                           .valid
-		.to_uart_ready   ()    //                           .ready
+		.to_uart_valid   (),   					//                           .valid
+		.to_uart_ready   ()    					//                           .ready
 	);
 
 

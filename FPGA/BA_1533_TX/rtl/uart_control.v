@@ -5,25 +5,24 @@
 //to change the max_tx_count use the $xx command, the new value will be multipaled by 1 million
 //the reg_data initialized to 0x9A, to change the reg_data use the #xx command
 //the UART module will be operated with 25MHz clock
+//////***REG_DATA AND max_tx_count ARE NOT USED, IT WILL IF NEEDED!!!!!
 module uart_control (
 rst, 
 clk, 
 from_uart_valid, 
-from_uart_data, 
-max_tx_count,
-reg_data
+from_uart_data
 );
 
 input clk;
 input rst;
 input from_uart_valid;
 input [7:0] from_uart_data;
-output reg [31:0] max_tx_count = 32'hF4246;
-output reg [7:0] reg_data = 8'h9A;
 
 reg [3:0] state;
 reg [7:0] new_tx_max_count;
 reg [7:0] new_reg_data;
+reg [31:0] max_tx_count = 32'h4C4B400;
+reg [7:0] reg_data = 8'hAA;
 
 parameter IDLE = 4'h0, CH_MAX_TX_COUNT1 = 4'h1, CH_MAX_TX_COUNT2 = 4'h2, CH_MAX_TX_COUNT3 = 4'h3,
 			CH_REG_DATA1 = 4'H4, CH_REG_DATA2 = 4'H5, CH_REG_DATA3 = 4'H6;
