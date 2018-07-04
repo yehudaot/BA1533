@@ -1,0 +1,5 @@
+Warning (10275): Verilog HDL Module Instantiation warning at altera_up_sync_fifo.v(138): ignored dangling comma in List of Port Connections File: C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v Line: 138
+Warning (10036): Verilog HDL or VHDL warning at uart_mcu_rs232_0.v(103): object "write_data_parity" assigned a value but never read File: C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v Line: 103
+Warning (10230): Verilog HDL assignment warning at altera_up_rs232_counters.v(105): truncated value with size 32 to match size of target (12) File: C:/BA/Software_projects/FPGA/1533_FPGA/temp/test_on_devkit/BA_1533_RX/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v Line: 105
+Warning (14284): Synthesized away the following node(s):
+Warning (14284): Synthesized away the following node(s):

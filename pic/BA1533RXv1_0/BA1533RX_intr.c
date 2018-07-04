@@ -61,6 +61,11 @@ void  RDA_isr(void)
 #int_RDA2
 void  RDA2_isr(void)
   {
+  if(fpga_first_val == 1)
+	{
+	count_1sec = 0;
+	fpga_first_val = 0;
+	}
   if(RCREG2 > 0)
     pass_count = RCREG2;  
   }

@@ -1,0 +1,29 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\BA\Software_projects\FPGA\1533_FPGA\BA_1533_RX\uart_mcu.qsys --block-symbol-file --output-directory=C:\BA\Software_projects\FPGA\1533_FPGA\BA_1533_RX\uart_mcu --family="MAX 10" --part=10M08SAU169I7G
+Progress: Loading BA_1533_RX/uart_mcu.qsys
+Progress: Reading input file
+Progress: Adding rs232_0 [altera_up_avalon_rs232 15.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\BA\Software_projects\FPGA\1533_FPGA\BA_1533_RX\uart_mcu.qsys --synthesis=VERILOG --output-directory=C:\BA\Software_projects\FPGA\1533_FPGA\BA_1533_RX\uart_mcu\synthesis --family="MAX 10" --part=10M08SAU169I7G
+Progress: Loading BA_1533_RX/uart_mcu.qsys
+Progress: Reading input file
+Progress: Adding rs232_0 [altera_up_avalon_rs232 15.1]
+Progress: Parameterizing module rs232_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: uart_mcu: Generating uart_mcu "uart_mcu" for QUARTUS_SYNTH
+Info: rs232_0: Starting Generation of RS232 UART
+Info: rs232_0: "uart_mcu" instantiated altera_up_avalon_rs232 "rs232_0"
+Info: uart_mcu: Done "uart_mcu" with 2 modules, 6 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

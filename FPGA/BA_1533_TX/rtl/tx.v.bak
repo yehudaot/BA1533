@@ -1,0 +1,37 @@
+module tx (
+
+clk, 
+reg_data, 
+tx_bit_data, 
+rst, 
+bit_data_dd,
+bit_mode_en,
+
+);
+
+input clk;
+input rst;
+input [7:0] reg_data;
+input bit_mode_en;
+output reg tx_bit_data;
+input bit_data_dd;
+
+reg [2:0] index;
+
+always@(posedge clk or posedge rst)begin     
+	if(rst)begin
+		index <= 3'h7;
+	end
+	else begin
+		if(~bit_data_dd || bit_mode_en)begin
+			tx_bit_data <= reg_data[index];
+			index <= index - 3'h1;
+		end
+		else begin
+			index <= 3'h7;
+			tx_bit_data <= 1'b0;
+		end
+	end
+end
+
+endmodule

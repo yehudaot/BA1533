@@ -17,10 +17,10 @@
 #define FRQ_LO_BOT 5150
 #define FRQ_LO_TOP 5250
 #define FRQ_HI_BOT 5675
-#define FRQ_HI_TOP 5685
+#define FRQ_HI_TOP 5875
 
 //========== power ============================================================
-UINT  power_level, power_control;
+UINT  power_control;		//power_level, 
 
 #define A2D_POWER 5		//FFWR
 #define A2D_PREV  4
@@ -31,8 +31,11 @@ UINT  power_level, power_control;
 #define A2D_Vdd   0
 #define A2D_28v   9
 
-#define DAC_POS_VOLT 0
-#define DAC_NEG_VOLT 1
+//#define DAC_POS_VOLT 0
+#define DAC_NEG_VOLT     2
+#define DAC_PRE_AMP_POS  6 
+#define DAC_UP_GAI_COUNT 10
+#define DAC_MONITOR_CTRL 14
 
 #define FREQ_LOW_THRESH   22570
 #define FREQ_HIGH_THRESH  23290
@@ -51,7 +54,7 @@ UCHAR  TMR_10mS_Cnt;
 UCHAR  TMR_100mS_Flags;
 UCHAR  TMR_100mS_Cnt;
 UCHAR  TMR_1sec_Flags;
-UCHAR  TMR_1sec_cnt;
+//UCHAR  TMR_1sec_cnt;
 
 #bit TMR_1MS_KEYPAD     = TMR_1mS_Flags.0
 #bit TMR_1MS_DELAY      = TMR_1mS_Flags.1
@@ -75,9 +78,6 @@ UCHAR  TMR_1sec_cnt;
 #define PLL1_CE   PIN_C1
 
 #define BIT_MODE_EN  PIN_C4  		// FPGA BIT_EN
-
-//#define POWER_CTL PIN_C5		//PREAMP2_EN
-//#define PA_ON     POWER_CTL
 
 #define PREAMP_EN  PIN_D2		//PS = 1 ? 1 : 0
 #define PREAMP2_EN PIN_C5		//PS = 1 ? 1 : 0
@@ -134,28 +134,6 @@ UCHAR comm_ridx;
 UCHAR comm_buf[80];
 UINT  comm_timeout;
 
-
-//========== COM2 variables ===================================================
-#define COM2_RX_LEN 32
-
-UCHAR COM2_rcnt;
-UCHAR COM2_rxi;
-UCHAR COM2_rxo;
-UCHAR COM2_rbuf[COM2_RX_LEN];
-
-#define COMM2_INIT       0
-#define COMM2_WAIT_DLR   1
-#define COMM2_WAIT_CR    2
-#define COMM2_DELAY      3
-
-#define WAIT_ACK2_TO 20 // 200mS wait for ack
-
-UCHAR comm2_state;
-UCHAR comm2_ridx;
-UCHAR comm2_buf[80];
-UINT  comm2_timeout;
-
-
 //======= misc ================================================================
 
 //----------- setup -----------------------------------------------------------
@@ -163,14 +141,16 @@ struct {
        UCHAR power_amp;
        UINT  frequency;
        UINT  power_level;
-       UINT  negative_voltage[3];
-       UINT  power_in[4];
+       UINT  negative_voltage[2];
+       UINT  power_in[2];			//positive voltage
+//	   UINT  monitor_ctrl[2];
        UINT  fwd_table[11][2];
        UINT  reverse;
        UCHAR meter_backlight;
        UINT  year;
        UCHAR week;
        UINT  unit_ID;
+	   //UINT  dac_val[4];
 } setup;
 
 UINT allow_write = 0;
@@ -179,11 +159,16 @@ UINT allow_write = 0;
 void read_setup(void);
 void write_setup(void);
 void update_all(void);
+void init_io_ports(void);
+void write_int_eeprom(UINT addr, UCHAR *data, UINT size);
+void read_int_eeprom(UINT addr, UCHAR *data, UINT size);
+void init_system(void);
+void check_bit_mode(void);
 //void meter1(void);
 //void meter2(void);
 
 //========== include source files =============================================
-#include "AD5312.c"
+#include "AD5314.c"
 #include "ADF4113.c"
 #include "BA1533TX_intr.c"
 #include "BA1533TX_serial.c"
@@ -199,14 +184,9 @@ void init_io_ports(void)
   output_c(0);
   output_d(0);
   output_e(0);
-//  set_tris_a(0b11100001);
-//  set_tris_b(0b11000010);
-//  set_tris_c(0b11110001);
-//  set_tris_d(0b10111011);
-//  set_tris_e(0b11111111);
   set_tris_a(0b11100001);
   set_tris_b(0b11001001);
-  set_tris_c(0b10000001);
+  set_tris_c(0b10000000);
   set_tris_d(0b10100010);
   set_tris_e(0b11111111);
   }
@@ -243,22 +223,26 @@ void read_setup(void)
 
 //-----------------------------------------------------------------------------
 #separate
-void power_output(void)
+void power_output(void)				//not all defined yet in this function
   {
-  UINT power;
-
-//  if (input(STANDBY))
-//    {
-//    if (pwr_command)
-//      output_high(POWER_EN);
-//    else
-//      output_low(POWER_EN);
-
+  UINT power, v28_sense;
 	if(pa_command)
 	{
+		set_adc_channel(A2D_28v); 			// select 28v power input
+  		delay_us(20);
+  		v28_sense = read_adc();					
+		if(v28_sense > 200)				//before enable check 28v if above 20v, 20v = 565 A2d read value
+		{
 		output_high(PREAMP_EN);
 		output_high(PREAMP2_EN);
 		output_high(TX_RX_INIT);
+		}
+		else
+		{
+		output_low(PREAMP_EN);
+		output_low(PREAMP2_EN);
+		output_low(TX_RX_INIT);
+		}
 	}
 	else
 	{
@@ -287,18 +271,20 @@ void power_output(void)
 
 
 
-
-
-/*
   if (setup.power_level)
     {
-    set_AD5312(DAC_NEG_VOLT, setup.negative_voltage[1]);
+    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[1]);
+	set_AD5314(DAC_PRE_AMP_POS, setup.power_in[1]);
+//	set_AD5314(DAC_MONITOR_CTRL , setup.monitor_ctrl[1]);
     }
   else
     {
-    set_AD5312(DAC_NEG_VOLT, setup.negative_voltage[0]);
+    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[0]);
+	set_AD5314(DAC_PRE_AMP_POS, setup.power_in[0]);
+//	set_AD5314(DAC_MONITOR_CTRL , setup.monitor_ctrl[0]);
     }
-*/
+
+
 
   if (TMR_100MS_POWER)
     {
@@ -311,25 +297,19 @@ void power_output(void)
       pavgx = 0;
     power = (power_avg[0] + power_avg[1] + power_avg[2] + power_avg[3]) / 4;
 
-
-
 /*
     if (power < setup.fwd_table[5][0])
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT1);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT1);
  //   else if (power < setup.fwd_table[2][0])
- //     set_AD5312(DAC_POS_VOLT, METER_OUTPUT2);
+ //     set_AD5314(DAC_POS_VOLT, METER_OUTPUT2);
  //   else if (power < setup.fwd_table[7][0])
-  //    set_AD5312(DAC_POS_VOLT, METER_OUTPUT3);
+  //    set_AD5314(DAC_POS_VOLT, METER_OUTPUT3);
     else
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT4);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT4);
 
 */
     }
   }
-
-
-
-
 
 
 //=============================================================================
@@ -379,39 +359,56 @@ void update_all(void)
   PLL1_compute_freq_parameters(freq * 10);
   PLL1_update();
   power_control = 1000;
+
+//  set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+//  set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+//  set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+//  set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
   }
 
+void check_bit_mode(void)
+  {
+	if(TMR_1Sec_BIT_EN)
+		{
+			TMR_1Sec_BIT_EN = 0;
+			count_1sec++;
+			if(count_1sec >= 60)
+			{	
+				count_1sec = 0;
+				output_low(BIT_MODE_EN);
+  				bit_mode = 0;
+			}
+		}
+  }
 //=============================================================================
 void main(void)
   {
   int16 vouta = 1000;
-  int16 count_1sec = 0;
   init_system();
 
   read_setup();
 
-  power_level = setup.power_in[setup.power_level];
+  output_low(LED1);
+  output_low(LED2);
+  //////////////////////////power_level = setup.power_in[setup.power_level];
   power_control = 1000;
-//  power_output();
-
 
   PLL1_initialize();
-
   update_all();
 
   COM1_send_str("\r\n");
   COM1_send_str(VERSION);
   COM1_send_str("\r\n");
 
-  set_AD5312(DAC_POS_VOLT, vouta);
-
+ //////////////////////// set_AD5314(DAC_POS_VOLT, vouta);
+  output_high(PLL1_CE);			//keep PLL CE constant HIGH
   delay_ms(2000);
-//  output_high(POWER_EN);
-
   output_low(BIT_MODE_EN);		//init BIT MODE EN to off
+
+  output_low(PREAMP_EN);		//$PS 0
+  output_low(PREAMP2_EN);		//$PS 0
+  output_low(TX_RX_INIT);		//$PS 0
  
-
-
 #ignore_warnings 203
   while (1)
     {
@@ -419,26 +416,15 @@ void main(void)
       {
       TMR_100mS_BLINK = 0;
       if (setup.power_level)
-        output_high(LED1);
+        output_low(LED1);
       else
         output_toggle(LED1);
       delay_us(1);
       }
 	  
 	if(bit_mode == 1)
-	{
-		if(TMR_1Sec_BIT_EN)
-		{
-			TMR_1Sec_BIT_EN = 0;
-			count_1sec++;
-			if(count_1sec >= 10)
-			{	
-				count_1sec = 0;
-				output_low(BIT_MODE_EN);
-  				bit_mode = 0;
-			}
-		}
-	}
+	  check_bit_mode();
+
     power_output();
     comm_handler();
     }

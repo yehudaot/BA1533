@@ -1,0 +1,116 @@
+module BA1533_TX (
+clk, 
+UART_RXD, 
+UART_TXD, 
+bit_mode_en
+
+
+);
+
+input clk;
+input bit_mode_en;
+input UART_RXD;          	//AF7, JP1 pin2
+output UART_TXD;				//AE12,JP1 pin40
+
+//
+//
+//wire uart_RxD_data_ready;
+//wire [7:0]from_uart_data;
+//wire from_uart_valid;
+//wire to_uart_valid;
+//wire BaudTick;
+//wire RxD_idle;
+//wire uart_RxD_endofpacket;
+//
+//wire [7:0] to_uart_data;
+//wire uart_TxD_busy;
+//wire uart_RxD_data_error;
+//wire to_uart_ready;
+//wire to_uart_txd;
+//wire clk24;
+//wire clk25;
+//wire clk75;
+//wire bit_mode_en;
+//
+//reg [7:0] reg_data = 8'h9A;		//change back to reg
+//reg rst = 1'b0;
+//reg bit_data;     ///remove it later
+//reg bit_data_d;
+//reg bit_data_dd;
+//reg bit_data_s;
+//reg uart_TxD_start;
+//reg [7:0] uart_data;
+//
+//assign UART_TXD = ~to_uart_txd;
+//
+///////////////////////////////////////SAMPLE SIGNALS//////////////////////////////////
+//always@(posedge clk or posedge rst)begin    //sample input bit_data signal to enable transmit signal
+//	if(rst)begin
+//		bit_data_d <= 1'b0;
+//		bit_data_dd <= 1'b0;
+//		bit_data_s <= 1'b0;
+//	end
+//	else begin
+//		bit_data <= key0;
+//		bit_data_d <= bit_data;
+//		bit_data_dd <= bit_data_d;
+//		bit_data_s <= ~bit_data_d && bit_data_dd;           //change it back to deru
+//	end
+//end
+//
+//
+//
+//tx tx_c (
+//		.clk            	(clk),             //                        clk.clk
+//		.rst           	(1'b0),
+//		.tx_bit_data		(tx_bit_data),
+//		.bit_data_dd		(bit_data_dd),
+//		.reg_data			(reg_data),
+//		.bit_mode_en		(bit_mode_en)
+//);
+//
+//rx rx_c (
+//		.clk             (clk),             //                        clk.clk
+//		.rst           (1'b0), 
+//		.rx_bit_data	(rx_bit_data),
+//		.bit_data_dd	(bit_data_dd),
+//		.bit_data_s		(bit_data_s),
+//		.reg_data		(reg_data),
+//		.pass				(),
+//		.fail				(),
+//		.total_rx_counter	(),
+//		.pass_percentage	(),
+//		.bit_mode_en	(bit_mode_en),
+//		.to_uart_valid	(to_uart_valid),
+//		.to_uart_data	(to_uart_data),
+//		.rx_128_counter()
+//);
+//
+//uart_control uart_control_c(
+//		.clk             	(clk),             
+//		.rst           	(1'b0), 
+//		.from_uart_valid	(from_uart_valid),
+//		.from_uart_data	(from_uart_data),
+//		.bit_mode_en		(bit_mode_en)
+//);
+//
+//		uart_mcu uart_mcu_c (
+//		.clk             (clk),             //                        clk.clk
+//		.reset           (1'b0),           //                      reset.reset
+//		.UART_RXD        (~UART_RXD),        //         external_interface.RXD
+//		.UART_TXD        (to_uart_txd),        //                           .TXD
+//		.from_uart_ready (~UART_RXD), 				// avalon_data_receive_source.ready
+//		.from_uart_data  (from_uart_data),  //                           .data
+//		.from_uart_error (), //                           .error
+//		.from_uart_valid (from_uart_valid), //                           .valid
+//		.to_uart_data    (to_uart_data),    //  avalon_data_transmit_sink.data
+//		.to_uart_error   (),   //                           .error
+//		.to_uart_valid   (to_uart_valid),   //                           .valid
+//		.to_uart_ready   (to_uart_ready)    //                           .ready
+//	);
+
+	
+	
+
+endmodule
+

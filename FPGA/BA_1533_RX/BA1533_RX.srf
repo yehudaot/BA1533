@@ -1,0 +1,7 @@
+{ "" "" "" "Verilog HDL Module Instantiation warning at altera_up_sync_fifo.v(138): ignored dangling comma in List of Port Connections" {  } {  } 0 10275 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL or VHDL warning at uart_mcu_rs232_0.v(103): object \"write_data_parity\" assigned a value but never read" {  } {  } 0 10036 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_up_rs232_counters.v(105): truncated value with size 32 to match size of target (8)" {  } {  } 0 10230 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "The following clock transfers have no clock uncertainty assignment. For more accurate results, apply clock uncertainty assignments or use the derive_clock_uncertainty command." {  } {  } 0 332168 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Run the PowerPlay Early Power Estimator File to ensure your design is within the maximum power utilization limit of the single power-supply target device and to avoid functional failures." {  } {  } 0 16562 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Verilog HDL assignment warning at altera_up_rs232_counters.v(105): truncated value with size 32 to match size of target (12)" {  } {  } 0 10230 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "Synthesized away the following node(s):" {  } {  } 0 14284 "" 0 0 "Design Software" 0 -1 0 ""}

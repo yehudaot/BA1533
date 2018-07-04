@@ -1,6 +1,7 @@
 
 UCHAR comm_ptr;
-UCHAR  pwr_command = 0, pa_command = setup.power_amp, on_command = 1, bit_mode = 0;
+UCHAR  pa_command = setup.power_amp, on_command = 1, bit_mode = 0;
+int16 count_1sec = 0;
 
 //UINT meter1 = 0, meter2 = 0;
 //-----------------------------------------------------------------------------
@@ -12,19 +13,6 @@ UCHAR COM1_get_chr(void)
     COM1_rxo = 0;
   if (COM1_rcnt)
     COM1_rcnt--;
-  return x;
-  }
-
-//-----------------------------------------------------------------------------
-
-UCHAR COM2_get_chr(void)		//uart CPLD
-  {
-  UCHAR x;
-  x = COM2_rbuf[COM2_rxo];
-  if (++COM2_rxo >= COM2_RX_LEN)
-    COM2_rxo = 0;
-  if (COM2_rcnt)
-    COM2_rcnt--;
   return x;
   }
 
@@ -63,52 +51,11 @@ void COM1_send_str(UCHAR *str)
   }
 
 //-----------------------------------------------------------------------------
-void COM2_send_str(UCHAR *str)		//uart CPLD
-  {
-  UCHAR x, pos, tab_stop;
-  disable_interrupts(int_RDA2);
-  pos = 0;
-  while (*str)
-    {
-    x = *str++;
-    if (x != '\t')
-      {
-      TXREG2 = x;
-      pos++;
-      delay_us(300);
-      x = RCREG2;
-      }
-    else
-      {
-      tab_stop = 32;
-      if (pos >= tab_stop)
-        tab_stop = pos + 2;
-      while (pos < tab_stop)
-        {
-        TXREG2 = ' ';
-        pos++;
-        delay_us(300);
-        x = RCREG2;
-        }
-      }
-    }
-  x = RCREG2;
-  enable_interrupts(int_RDA2);
-  }
-
-//-----------------------------------------------------------------------------
 void COM1_init(void)			//UART HOST
   {
   COM1_rxi = COM1_rxo = COM1_rcnt = 0;
   comm_state = COMM_INIT;
   enable_interrupts(int_RDA);
-  }
-
-void COM2_init(void)			//uart CPLD
-  {
-  COM2_rxi = COM2_rxo = COM2_rcnt = 0;
-  comm2_state = COMM2_INIT;
-  enable_interrupts(int_RDA2);
   }
 
 //----------------------------------------------------------------------------
@@ -226,10 +173,44 @@ void list_help(void)
   COM1_send_str("$P <level><cr>  \tSet power level high(1) or low(0)\r\n");
   COM1_send_str("$LD <fwd><cr>  \tSet Fwd power measurement on(1) or off(0)\r\n");
   COM1_send_str("$Q<cr>  \tRequest status\r\n");
-  COM1_send_str("$BM<cr>  \tBIT Mode ON(1) OFF(0)");
+  COM1_send_str("$BM<cr>  \tBIT Mode ON(1) OFF(0)\r\n");
   COM1_send_str("$TR<cr>  \tTRANSIVER(T) RECIVER(R)");
   //COM1_send_str("\r\n");
   }
+
+//
+//-----------------------------------------------------------------------------
+void send_raw_status(void)
+  {
+	UCHAR buf[64] ;
+	UINT iv3p3, iv28, iffwr;
+	float v3p3, v28, ffwr;
+	set_adc_channel(A2D_Vdd); 				// select 3.3v power input
+  	delay_us(20);
+  	iv3p3 = read_adc();
+
+	set_adc_channel(A2D_28v); 			// select 28v power input
+  	delay_us(20);
+  	iv28 = read_adc();
+
+	set_adc_channel(A2D_FFWR2); 			// select ffwr2 power input
+  	delay_us(20);
+  	iffwr = read_adc();
+
+	v3p3 = (float)iv3p3 / 1024.0 * 3.3;
+	v28 = (float)iv28 / 1024.0 * 36.3;  	//36.3 = 3.3 * 11
+	ffwr = (float)iffwr / 1024.0 * 3.3; 
+	sprintf(buf, "\r\n3.3v power in=%2.1f(v) 28v power in=%2.1f(v) FFWR2=%2.1f(v)",v3p3, v28, ffwr);
+	COM1_send_str(buf);
+
+	sprintf(buf, "\r\nNEgative Voltage LOW=%lu (%.1fmv) High=%lu (%.1fmv)",setup.negative_voltage[0],(setup.negative_voltage[0] * 4.761), setup.negative_voltage[1], (setup.negative_voltage[1] * 4.761));
+	COM1_send_str(buf);
+	sprintf(buf, "\r\nPositive Voltage LOW=%lu (%.1fmv) High=%lu (%.1fmv)",setup.power_in[0], (setup.power_in[0] * 4.761), setup.power_in[1], (setup.power_in[1] * 4.761));
+	COM1_send_str(buf);
+
+
+  }
+
 
 //----------------------------------------------------------------------------
 void send_status(void)
@@ -272,7 +253,7 @@ void send_status(void)
   else 
   	strcpy(light_stat, "OFF");
 
-  if((pa_command == 1) && (on_command == 1))
+  if(on_command == 1)
   	strcpy(transmit_stat, "ON");
   else 
   	strcpy(transmit_stat, "OFF");
@@ -282,7 +263,9 @@ void send_status(void)
   else 
   	strcpy(bit_mode_stat, "STOP");
 
-  if(!input(PLL1_LD))
+  UINT LD = input(PLL1_LD);
+
+  if(LD)
 	strcpy(lock_stat, "LOCK");
   else
     strcpy(lock_stat, "NOT LOCK");
@@ -299,7 +282,7 @@ void send_status(void)
   sprintf(buf, "\r\nFREQ=%lu, REV=%s, LIGHT=%s, FWD=%ludBM, TEMP=%5.1f, TRANSMIT=%s, ID=%lu, DC=%02lu%02u, VER %ls, ",
           setup.frequency, revstat, light_stat, fpwr, temp, transmit_stat, setup.unit_ID, setup.year, setup.week, VERSION_V);
   COM1_send_str(buf);
-  sprintf(buf, "BIT MODE=%s, SYNTH LOCK=%s, POWER=%s, ",bit_mode_stat, lock_stat, power_stat);
+  sprintf(buf, "BIT MODE=%s, SYNTH LOCK=%s, POWER=%s, MODULE TYPE=TX,",bit_mode_stat, lock_stat, power_stat);
 
   COM1_send_str(buf);
 
@@ -331,11 +314,6 @@ return 0;
   }
 
 
-
-
-
-
-
 */
 //----------------------------------------------------------------------------
 // command format:
@@ -353,7 +331,7 @@ UCHAR process_dollar_commands(void)
   chr = 2;
   comm_ptr = 0;
   UINT year, week;
-  int16 dac_val;
+  //int16 dac_val;
   switch (toupper(get_char()))
     {
     case 'H': case '?':
@@ -361,6 +339,20 @@ UCHAR process_dollar_commands(void)
       return 0;
    case 'F':
       freq = get_frequency();
+	  if (freq >= FRQ_HI_BOT && freq <= FRQ_HI_TOP)
+         	{
+             setup.frequency = freq;
+             PLL1_compute_freq_parameters(freq * 10);
+             PLL1_update();             
+             allow_write = 2975;
+             write_setup();
+             update_all();
+         	}
+      else
+         		COM1_send_str("\r\n$FAIL\r\n");
+	  break;
+
+/*///////////////in case of freq range depends on power level ($p)
       if(setup.power_level)
 		{
 			if (freq >= FRQ_HI_BOT && freq <= FRQ_HI_TOP)
@@ -391,7 +383,7 @@ UCHAR process_dollar_commands(void)
     
     	}
       break;
-      
+*///////////////////////////////////////////////////////////////////////      
     /*  case 'M':
         idx = get_int();
         if(idx ==1)
@@ -414,18 +406,18 @@ UCHAR process_dollar_commands(void)
           {
           if (idx)
             {
-			output_high(PLL1_CE);
-            //pa_command  = 1;
+			//output_high(PLL1_CE);
+			PLL1_ON();
             on_command = 1;
+			output_low(LED2);
             }
           else
             {
-			output_low(PLL1_CE);
-            //pa_command  = 0;
+			//output_low(PLL1_CE);
+			PLL1_OFF();
             on_command = 0;
+			output_high(LED2);
             }
-			//allow_write = 2975;          ////yehuda save LD command into EEPROM when changed
-         //	write_setup();
           }
       else
          COM1_send_str("\r\n$FAIL\r\n");
@@ -453,7 +445,7 @@ UCHAR process_dollar_commands(void)
             {
             bit_mode = 1;
 			output_high(BIT_MODE_EN);
-			fprintf(UART_CPLD,"$ON");
+			count_1sec = 0;
             }
           else
             {
@@ -478,17 +470,15 @@ UCHAR process_dollar_commands(void)
                {
                 if (idx)
                    {
-                   pa_command  = 1;
-				   //output_high(PLL1_CE);			//keep PLL CE constant HIGH
+                    pa_command  = 1;
                    }
                  else
                     {
                  	pa_command  = 0;
-				    //output_low(PLL1_CE);			//keep PLL CE constant HIGH
                     }
 				
-					setup.power_amp = pa_command;  //yehuda add this line too
-					allow_write = 2975;          ////yehuda save LD command into EEPROM when changed
+					setup.power_amp = pa_command;  
+					allow_write = 2975;          
          			write_setup();
                  }
          		 else  
@@ -496,7 +486,7 @@ UCHAR process_dollar_commands(void)
          }
          else 										// $P command, set setup.power_level
             set_power_level();
-			allow_write = 2975;          			////yehuda save LD command into EEPROM when changed
+			allow_write = 2975;          			
          	write_setup();
          break;
 
@@ -537,66 +527,103 @@ $C5 - set all to 1v
 $C6 - set all to 2v
 $C7 - set all to 3v
 */
-
+/*
    case 'C':
 	{
 		idx = get_int();
 		if(idx == 0)
 		{
-			set_AD5312(2, 0);
-			set_AD5312(6, 0);
-			set_AD5312(10, 0);
-			set_AD5312(14, 0);
+			setup.dac_val[0] = 0;
+			setup.dac_val[1] = 0;
+			setup.dac_val[2] = 0;
+			setup.dac_val[3] = 0;
+			set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+			set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+			set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+			set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 1)
 		{
-			dac_val = get_int();
-			set_AD5312(2, dac_val);
+			//dac_val = get_int();
+			temp_dac_val = get_int();
+			setup.dac_val[0] = temp_dac_val();
+			set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 2)
 		{
-			dac_val = get_int();
-			set_AD5312(6, dac_val);
+			//dac_val = get_int();
+			temp_dac_val = get_int();
+			setup.dac_val[1] = temp_dac_val;
+			set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 3)
 		{
-			dac_val = get_int();
-			set_AD5312(10, dac_val);
+			//dac_val = get_int();
+			temp_dac_val = get_int();
+			setup.dac_val[2] = temp_dac_val;
+			set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 4)
 		{
-			dac_val = get_int();
-			set_AD5312(14, dac_val);
+			//dac_val = get_int();
+			temp_dac_val = temp_dac_val;
+			setup.dac_val[3] = temp_dac_val;
+			set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 5)
 		{
-			set_AD5312(2, 210);
-			set_AD5312(6, 210);
-			set_AD5312(10, 210);
-			set_AD5312(14, 210);
+			setup.dac_val[0] = 210;
+			setup.dac_val[1] = 210;
+			setup.dac_val[2] = 210;
+			setup.dac_val[3] = 210;
+			set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+			set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+			set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+			set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 6)
 		{
-			set_AD5312(2, 420);
-			set_AD5312(6, 420);
-			set_AD5312(10, 420);
-			set_AD5312(14, 420);
+			setup.dac_val[0] = 420;
+			setup.dac_val[1] = 420;
+			setup.dac_val[2] = 420;
+			setup.dac_val[3] = 420;
+			set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+			set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+			set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+			set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
+			allow_write = 2975;
+          	write_setup();
 		}
 		if(idx == 7)
 		{
-			set_AD5312(2, 630);
-			set_AD5312(6, 630);
-			set_AD5312(10, 630);
-			set_AD5312(14, 630);
+			setup.dac_val[0] = 630;
+			setup.dac_val[1] = 630;
+			setup.dac_val[2] = 630;
+			setup.dac_val[3] = 630;
+			set_AD5314(DAC_NEG_VOLT, setup.dac_val[0]);
+			set_AD5314(DAC_PRE_AMP_POS, setup.dac_val[1]);
+			set_AD5314(DAC_UP_GAI_COUNT, setup.dac_val[2]);
+			set_AD5314(DAC_OCXO_REF, setup.dac_val[3]);
+			allow_write = 2975;
+          	write_setup();
 		}
 	}
+*/
+///////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-    /*  case 'M':
+/*  case 'M':
 		addr = get_int();
 			if(addr)
 				{
@@ -604,7 +631,8 @@ $C7 - set all to 3v
 				}
 				else
 					meter2();
-            break;*/
+            break;
+*/
 
     case 'S': // set tables
       skip_spc();
@@ -616,6 +644,8 @@ $C7 - set all to 3v
         case 'N': // negative voltage
           if (addr < 2)
          {
+			//value = value * 0.3103;
+			value = value * 0.21;
             setup.negative_voltage[addr] = value;
          }
             else
@@ -623,13 +653,28 @@ $C7 - set all to 3v
           break;
 
         case 'P': // positive voltage
-             if (addr <4)
+             if (addr <2)
               {
-              setup.power_in[addr] = value;
+              	//value = value * 0.3103;
+				value = value * 0.21;
+				setup.power_in[addr] = value;
               }
            else
               COM1_send_str("\r\n$FAIL\r\n");
           break;
+
+//		case 'M': // 
+//          if (addr < 2)
+//         {
+//			//value = value * 0.3103;
+//			value = value * 0.21;
+//            setup.monitor_ctrl[addr] = value;
+//         }
+//            else
+//                 COM1_send_str("\r\n$FAIL\r\n");
+//          break;
+
+
 
         case 'R': // rev table
          if (toupper(get_char()) == 'R')
@@ -639,11 +684,7 @@ $C7 - set all to 3v
          else
             COM1_send_str("\r\n$FAIL\r\n");
           break;
-
  
-
-
-     
    case 'F': // forward table
           if (addr < 12)
             {
@@ -688,6 +729,10 @@ $C7 - set all to 3v
     case 'Q':
       send_status();
       break;
+	case 'R':
+      send_raw_status();
+      break;
+
     default:
       printf("\r\n$FAIL\r\n");
 

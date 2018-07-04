@@ -1,0 +1,54 @@
+module BA1533_RX (
+clk, 
+UART_RXD, 
+UART_TXD, 
+bit_mode_en,
+f1_tp1,
+f1_tp2,
+f1_tp3,
+f1_tp4,
+vfpga2_dig,
+adc_sample1,
+led1,
+led2,
+led3,
+led4,
+tx_bit_data			//dont know the assignment for this pin
+
+);
+
+
+input clk;
+input bit_mode_en;
+input UART_RXD;          	
+output UART_TXD;				
+output wire tx_bit_data;
+
+input f1_tp1;
+input f1_tp2;
+input f1_tp3;
+input f1_tp4;
+input vfpga2_dig;
+input adc_sample1;
+output led1;
+output led2;
+output led3;
+output led4;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+endmodule
+

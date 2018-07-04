@@ -1,0 +1,89 @@
+module uart_control (
+rst, 
+clk, 
+from_uart_valid, 
+from_uart_data, 
+bit_mode_en
+);
+
+input clk;
+input rst;
+input from_uart_valid;
+input [7:0] from_uart_data;
+output reg bit_mode_en;
+
+reg [7:0] uart_data;
+reg [3:0] state;
+
+parameter IDLE = 4'h0, RD_O = 4'h1, RD_F = 4'h2;
+
+always@(posedge clk or posedge rst)begin    
+	if(rst)begin
+		uart_data <= 8'h0;
+	end
+	else begin
+		if(from_uart_valid)begin
+			uart_data <= from_uart_data;
+		end
+		else begin 
+			uart_data <= uart_data;
+		end
+	end
+end
+
+//UART control state machine
+always@(posedge clk or posedge rst)begin    
+	if(rst)begin
+		state <= 4'h0;
+		bit_mode_en <= 1'b0;
+	end
+	else begin
+		case(state)
+			IDLE: begin
+				//to_uart_valid <= 1'b0;
+				if(from_uart_valid)begin
+					if((from_uart_data) == 8'h4F || (from_uart_data == 8'h6F)) state <= RD_O;	//uart data is 'O' or 'o'
+				end
+				else																//this else is for if not from_uart_valid
+				state <= IDLE;
+			end
+			RD_O: begin
+				if(from_uart_valid)begin
+					if(from_uart_data == 8'h20) state <= RD_O;		//read space, stay in the same state
+					else if((from_uart_data == 8'h4E) || (from_uart_data == 8'h6E))begin	//read 'N' or 'n' , start bit mode
+						bit_mode_en <= 1'b1;
+						state <= IDLE;
+					end
+					else if((from_uart_data == 8'h46) || (from_uart_data == 8'h66))begin	//read 'F' or 'f' , move to state RD_F
+						state <= RD_F;
+					end
+					else begin
+						state <= IDLE;											//exit to IDLE if unknown command recieved
+						//need to send fail 
+					end
+				end
+				else begin 														//stay in the state if from_uartvalid did not arrived
+					state <= RD_O;
+				end
+			end
+			RD_F: begin
+				if(from_uart_valid)begin
+					if(from_uart_data == 8'h20) state <= RD_F;		//read space, stay in the same state
+					else if((from_uart_data == 8'h46) || (from_uart_data == 8'h66))begin	//read 'F' or 'f' , recieved OFF
+						bit_mode_en <= 1'b0;
+						state <= IDLE;
+					end
+				else
+					state <= RD_F;
+				end
+			end
+		endcase			
+	end
+end
+
+
+
+
+
+
+endmodule

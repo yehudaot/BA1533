@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProgramExecution>
+ <SOPCSystem>
+  <CompileID>0</CompileID>
+  <DeviceFamily>UNKNOWN</DeviceFamily>
+  <HDLLanguage></HDLLanguage>
+  <Qsys>0</Qsys>
+  <SOPCModule>
+   <C>1</C>
+   <ModuleType>altera_up_avalon_rs232</ModuleType>
+   <SOPCModuleParameter>
+    <C>2</C>
+    <Name>avalon_bus_type</Name>
+    <Value>Streaming</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>3</C>
+    <Name>clk_rate</Name>
+    <Value>25000000</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>4</C>
+    <Name>baud</Name>
+    <Value>115200</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>5</C>
+    <Name>parity</Name>
+    <Value>None</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>6</C>
+    <Name>data_bits</Name>
+    <Value>8</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>7</C>
+    <Name>stop_bits</Name>
+    <Value>1</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>8</C>
+    <Name>AUTO_DEVICE_FAMILY</Name>
+    <Value>MAX 10</Value>
+   </SOPCModuleParameter>
+   <SOPCModuleParameter>
+    <C>9</C>
+    <Name>AUTO_CLK_CLOCK_RATE</Name>
+    <Value>0</Value>
+   </SOPCModuleParameter>
+  </SOPCModule>
+  <SystemID>1561476689</SystemID>
+ </SOPCSystem>
+ <SchemaVersion>schema_2013-01-18</SchemaVersion>
+</ProgramExecution>

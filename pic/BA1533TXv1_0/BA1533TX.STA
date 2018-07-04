@@ -1,140 +1,146 @@
 
-ROM used:   13088/16384 (40%)
-            13088/16384 (40%) including unused fragments
+ROM used:   14344/16384 (44%)
+            14344/16384 (44%) including unused fragments
 
-            3.8 Average locations per line
-            19.3 Average locations per statement
+            4.1 Average locations per line
+            22.5 Average locations per statement
 
-RAM used:   380/1536 (25%) at main() level
-            649/1536 (42%) worst case
+RAM used:   251/1536 (16%) at main() level
+            490/1536 (32%) worst case
 
-Stack used: 9 worst case (8 in main + 1 for interrupts)
+Stack used: 10 worst case (9 in main + 1 for interrupts)
 Stack size: 30
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  451    97  14  BA1533TX.c
-   36     0   0  BA1533TX.h
+  437   117  18  BA1533TX.c
+   35     0   0  BA1533TX.h
  1000     0   0  ..\..\..\..\..\..\Program Files (x86)\PICC\devices\18F45K22.h
    28     0   0  ..\..\..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
   750     0   0  PIC18F45K22_registers.h
-  168   105  15  AD5312.c
-  115    48   7  ADF4113.c
-   72    27   4  BA1533TX_intr.c
-  780   401  59  BA1533TX_serial.c
+  168   105  16  AD5314.c
+  136    54   8  ADF4113.c
+   74    21   3  BA1533TX_intr.c
+  835   340  53  BA1533TX_serial.c
 ----- -----
- 3400   678 Total
+ 3463   637 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
 0     48   0    1             @delay_ms1
 0     32   0    1             @delay_us1
 0     70   0    1             @PUTCHAR_2_
-0    592   2    3  3552  3.5  set_AD5312
-0     98   0    3   343  4.8  PLL1_send_bits
+0    592   2    3  3552  3.5  set_AD5314
+0     96   0    3   343  4.8  PLL1_send_bits
 0     78   0    5   295  1.9  PLL1_send_word
-0    108   0   10   117  2.6  PLL1_update
+0    112   0   10   117  2.6  PLL1_update
 0    106   0    0   193  1.8  PLL1_initialize
-0    288   1   14   277  4.5  PLL1_compute_freq_parameters
+0    316   1   14   277  4.5  PLL1_compute_freq_parameters
 0     90   0   14             @MUL3232
 0    148   1   13             @DIV3232
+0     62   0    4    98  2.5  PLL1_ON
+0     34   0    5             @MUL1616
+0     62   0    4    86  2.1  PLL1_OFF
 0      6   0    0     5  1.0  TIMER4_isr
 0     48   0    0   290  3.2  TIMER2_isr
 0      6   0    0     5  1.0  EXT_isr
 0      6   0    0     5  1.0  EXT1_isr
 0     46   0    3   160  4.0  RDA_isr
-0     46   0    3   160  4.0  RDA2_isr
 0     44   0    1   144  4.3  COM1_get_chr
 0    148   1    6   572  6.8  COM1_send_str
 0     16   0    0    74  1.6  COM1_init
-0     32   0    1    30  2.3  get_char
-0     30   0    0    25  1.9  peek_char
-0     72   0    1   105  3.8  skip_spc
-0    190   1    7   373  6.3  get_int
+0     28   0    1    30  2.3  get_char
+0     26   0    0    25  1.9  peek_char
+0     64   0    1   105  3.8  skip_spc
+0    194   1    7   373  6.3  get_int
 0     84   0    6             @MULS1616
 0     26   0    2    56  2.2  get_frequency
-0    478   2    4   179  1.4  list_help
-0    106   0    0             @const1574
-0     82   0    0             @const1575
-0     76   0    0             @const1576
-0     80   0    0             @const1577
-0     86   0    0             @const1578
-0     52   0    0             @const1579
-0     58   0    0             @const1580
-0     60   0    0             @const1581
-0   1638   6  146  2332 10.8  send_status
-0     56   0    2             @ITOF
-0    352   1   14             @DIVFF
+0    476   2    4   179  1.4  list_help
+0    106   0    0             @const1572
+0     82   0    0             @const1573
+0     76   0    0             @const1574
+0     80   0    0             @const1575
+0     86   0    0             @const1576
+0     52   0    0             @const1577
+0     60   0    0             @const1578
+0     60   0    0             @const1579
+0   1446   5   90  1254  4.5  send_raw_status
+0     54   0    2             @ITOF
+0    350   1   14             @DIVFF
 0    246   1   11             @MULFF
-0    632   2   16             @ADDFF
-0     32   0    0             @const1606
-0     30   0    0             @const1607
-0     30   0    0             @const1608
-0     30   0    0             @const1609
-0     32   0    0             @const1612
-0     32   0    0             @const1613
-0     32   0    0             @const1614
-0     36   0    0             @const1615
-0     32   0    0             @const1616
-0     30   0    0             @const1617
-0    100   0    0             @const1618
-0      6   0    0             @const1619
-0     34   0    1             @SPRINTF
-0     40   0    3             @PSTRINGCN_1621
-0    188   1    9             @PRINTF_LU_1621
-0     36   0    2             @PSTRINGR_1621
+0     62   0    0             @const1596
+0     32   0    1             @SPRINTF
+0     40   0    3             @PSTRINGCN_1598
 0     68   0    5             @FTOSD
-0    428   2   13             @PRINTF_L32D_1621FPFPF
+0    426   1   13             @PRINTF_L32D_1598FPFPF
+0     54   0    0             @const1607
+0    188   1    9             @PRINTF_LU_1598
+0     54   0    0             @const1610
+0   1614   6  146  2319  9.9  send_status
+0    632   2   16             @ADDFF
+0     32   0    0             @const1627
+0     30   0    0             @const1628
+0     30   0    0             @const1629
+0     30   0    0             @const1630
+0     32   0    0             @const1633
+0     32   0    0             @const1634
+0     32   0    0             @const1636
+0     36   0    0             @const1637
+0     32   0    0             @const1638
+0     30   0    0             @const1639
+0    100   0    0             @const1640
+0      6   0    0             @const1641
+0     36   0    2             @PSTRINGR_1598
 0     44   0    3             @DIV88
-0    126   0    2             @PRINTF_U_1621
-0     34   0    2             @PSTRINGC_1621
-0     40   0    0             @const1640
+0    126   0    2             @PRINTF_U_1598
+0     34   0    2             @PSTRINGC_1598
+0     54   0    0             @const1650
 0     46   0    2   136  3.5  set_power_level
-0   2996  11   13  7523 11.0  process_dollar_commands
-0     36   0    0             @const1652
-0     34   0    0             @const1660
-0      4   0    0             @const1662
-0     32   0    2             @PSTRINGC_689
-0     10   0    0             @const1675
-0    418   2    8  1028  7.6  dollar_handler
-0     38   0    0             @const1679
-0     34   0    0             @const1681
-0     36   0    0             @const1683
-0     44   0    0             @goto11663
+0   2438   8   13  5324 10.9  process_dollar_commands
+0     36   0    0             @const1661
+0     34   0    0             @const1665
+0     60   0    4             @SFTOI
+0     10   0    0             @const1680
+0     34   0    2             @PSTRINGC_689
+0    412   1    8  1028  7.6  dollar_handler
+0     38   0    0             @const1685
+0     34   0    0             @const1687
+0     36   0    0             @const1689
+0     44   0    0             @goto11612
 0     38   0    1   174  2.2  clear_comm_errors
 0     10   0    0    25  1.1  comm_handler
 0     38   0    0   202  1.4  init_io_ports
 0    112   0    9   110  4.4  write_int_eeprom
 0     86   0   11   112  4.9  read_int_eeprom
-0     46   0    0    99  3.7  write_setup
-0     72   0    0   181  4.4  read_setup
+0     40   0    0    99  3.7  write_setup
+0     60   0    0   181  4.4  read_setup
 0     28   0    0             @MEMSET
-0    168   1    4   552  5.3  power_output
+0    314   1    6  1169  6.3  power_output
 0    104   0    0   420  2.4  init_system
 0     58   0    4   114  2.6  update_all
-0     36   0    5             @MUL1616
-0    398   2    8   875  6.3  MAIN
-0     40   0    0             @const1718
+0     34   0    0   143  3.0  check_bit_mode
+0    318   1    6   693  4.3  MAIN
+0     40   0    0             @const1711
  Inline         0             @cinit1
 
 Program metrics:
-    Functions               36
-    Statements              678
-    Comments                534
-    Volume (V)              33068
-    Difficulty (D)          134.7
-    Effort to implement (E) 4453910
-    Time to implement (T)   68 hours, 44 minutes
+    Functions               39
+    Statements              637
+    Comments                699
+    Volume (V)              33921
+    Difficulty (D)          140.6
+    Effort to implement (E) 4770233
+    Time to implement (T)   73 hours, 37 minutes
     Est Delivered Bugs (B)  9
-    Cyclomatic Complexity   115
-    Maintainability (MI)    72
+    Cyclomatic Complexity   105
+    Maintainability (MI)    104
 
  Segment     Used  Free
 -----------  ----  ----
 00000-00002     4  0  
 00004-00006     0  4  
-00008-000D0   202  0  
-000D2-07FFE  12882  19676  
+00008-000C4   190  0  
+000C6-07FFE  14150  18420  
 
 
 

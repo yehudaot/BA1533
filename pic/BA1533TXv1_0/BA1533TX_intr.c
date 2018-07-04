@@ -58,6 +58,7 @@ void  RDA_isr(void)
     COM1_rcnt++;
   }
 
+/*
 #int_RDA2
 void  RDA2_isr(void)
   {
@@ -69,3 +70,4 @@ void  RDA2_isr(void)
   if (COM2_rcnt < COM2_RX_LEN)
     COM2_rcnt++;
   }
+*/

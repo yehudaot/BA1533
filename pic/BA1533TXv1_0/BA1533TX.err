@@ -1,8 +1,3 @@
->>> Warning 202 "BA1533TX.c" Line 54(8,20): Variable never used:   TMR_1sec_cnt
->>> Warning 202 "BA1533TX.c" Line 154(7,17): Variable never used:   comm2_ridx
->>> Warning 202 "BA1533TX.c" Line 155(7,16): Variable never used:   comm2_buf
->>> Warning 202 "BA1533TX.c" Line 156(7,20): Variable never used:   comm2_timeout
->>> Warning 202 "C:\BA\Software_projects\PIC\1533\BA_1533\BA1533TXv1_0\BA1533TX_serial.c" Line 3(8,19): Variable never used:   pwr_command
-      Memory usage:   ROM=40%      RAM=25% - 42%
-      0 Errors,  5 Warnings.
+      Memory usage:   ROM=44%      RAM=16% - 32%
+      0 Errors,  0 Warnings.
 Build Successful.

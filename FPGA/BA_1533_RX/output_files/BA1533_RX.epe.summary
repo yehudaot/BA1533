@@ -1,0 +1,7 @@
+PowerPlay Early Power Estimator File Generator Status : Successful - Mon Jun 04 23:03:14 2018
+Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
+Revision Name : BA1533_RX
+Top-level Entity Name : BA1533_RX
+Family : MAX 10
+Device : 10M08SAU169I7G
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

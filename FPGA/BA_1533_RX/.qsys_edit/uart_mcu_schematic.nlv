@@ -1,0 +1,11 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst uart_mcu -pg 1 -lvl 1 -y 40 -regy -20
+preplace inst uart_mcu.rs232_0 -pg 1 -lvl 1 -y 30
+preplace netloc EXPORT<net_container>uart_mcu</net_container>(SLAVE)rs232_0.external_interface,(SLAVE)uart_mcu.external_interface) 1 0 1 NJ
+preplace netloc EXPORT<net_container>uart_mcu</net_container>(SLAVE)uart_mcu.reset,(SLAVE)rs232_0.reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>uart_mcu</net_container>(SLAVE)rs232_0.avalon_data_transmit_sink,(SLAVE)uart_mcu.avalon_data_transmit_sink) 1 0 1 NJ
+preplace netloc EXPORT<net_container>uart_mcu</net_container>(MASTER)rs232_0.avalon_data_receive_source,(MASTER)uart_mcu.avalon_data_receive_source) 1 1 1 N
+preplace netloc EXPORT<net_container>uart_mcu</net_container>(SLAVE)uart_mcu.clk,(SLAVE)rs232_0.clk) 1 0 1 NJ
+levelinfo -pg 1 0 170 620
+levelinfo -hier uart_mcu 180 210 430

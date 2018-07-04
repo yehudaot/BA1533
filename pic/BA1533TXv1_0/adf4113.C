@@ -77,8 +77,13 @@ void PLL1_initialize(void)
   output_high(PLL1_CE);			//keep PLL CE constant HIGH
   delay_ms(20);
   ULONG prog;
-  prog = 0b110010010000000010000011;
+  prog = 0b110010010000000010010011;
   PLL1_send_word(prog);
+  
+//  delay_ms(80);
+//  prog = 0b110010010000000010010010;		//0b110010010000000010010010;
+//  PLL1_send_word(prog);
+
   delay_ms(80);
   prog = 0b000000000000111110100000;
   PLL1_send_word(prog);
@@ -111,4 +116,20 @@ void PLL1_compute_freq_parameters(UINT Frequest)
   PLL1_A = D - (PLL1_B * FREQ_P_MULT);
   }
 
+#separate
+void PLL1_ON(void)
+{
+	UINT freq_on = setup.frequency;
+    PLL1_compute_freq_parameters(freq_on * 10);
+    PLL1_update();             
+    update_all();
+}
 
+#separate
+void PLL1_OFF(void)
+{
+	UINT freq_off = 56000;
+	PLL1_compute_freq_parameters(freq_off * 10);
+    PLL1_update();             
+    update_all();
+}

@@ -1,0 +1,12 @@
+PowerPlay Power Analyzer Status : Successful - Tue Jul 03 01:19:05 2018
+Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
+Revision Name : BA1533_TX
+Top-level Entity Name : BA1533_TX
+Family : MAX 10
+Device : 10M50DAF484C6GES
+Power Models : Final
+Total Thermal Power Dissipation : 139.20 mW
+Core Dynamic Thermal Power Dissipation : 33.70 mW
+Core Static Thermal Power Dissipation : 96.33 mW
+I/O Thermal Power Dissipation : 9.17 mW
+Power Estimation Confidence : Low: user provided insufficient toggle rate data

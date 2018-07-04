@@ -1,0 +1,109 @@
+# do BA1533_TX_run_msim_gate_verilog.do
+# if {[file exists gate_work]} {
+# 	vdel -lib gate_work -all
+# }
+# vlib gate_work
+# vmap work gate_work
+# Model Technology ModelSim ALTERA vmap 10.4b Lib Mapping Utility 2015.05 May 27 2015
+# vmap -modelsim_quiet work gate_work 
+# Copying C:/altera_lite/15.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:/altera_lite/15.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+. {BA1533_TX.vo}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:32:20 on Jun 13,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+." BA1533_TX.vo 
+# -- Compiling module BA1533_TX
+# 
+# Top level modules:
+# 	BA1533_TX
+# End time: 21:32:20 on Jun 13,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:32:20 on Jun 13,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 21:32:20 on Jun 13,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L gate_work -L work -voptargs="+acc"  tb
+# vsim -t 1ps -L altera_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L gate_work -L work -voptargs=""+acc"" tb 
+# Start time: 21:32:21 on Jun 13,2018
+# Loading work.tb
+# Loading work.BA1533_TX
+# Loading altera_ver.dffeas
+# Loading altera_ver.PRIM_GDFF_LOW
+# ** Warning: (vsim-3017) BA1533_TX.vo(11278): [TFMPC] - Too few port connections. Expected 8, found 7.
+#    Time: 0 ps  Iteration: 0  Instance: /tb/DUT/a_aQUARTUS_CREATED_ADC1_a File: nofile
+# ** Warning: (vsim-3722) BA1533_TX.vo(11278): [TFMPC] - Missing connection for port 'clk_dft'.
+# 
+# source BA1533_TX_dump_all_vcd_nodes.tcl
+# 0
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+#                   50 test case failed
+#                  100 test case failed
+#                  150 test case failed
+#                  200 test case failed
+#                  250 test case failed
+#                  300 test case failed
+#                  350 test case failed
+#                  400 test case failed
+#                  450 test case failed
+#                  500 test case failed
+#                  550 test case failed
+#                  600 test case failed
+#                  650 test case failed
+#                  700 test case failed
+#                  750 test case failed
+#                  800 test case failed
+#                  850 test case failed
+#                  900 test case failed
+#                  950 test case failed
+# ** Note: $stop    : C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v(177)
+#    Time: 2 us  Iteration: 0  Instance: /tb
+# Break in Module tb at C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v line 177
+restart -f
+# Closing VCD file "BA1533_TX.vcd"
+# ** Warning: (vsim-3017) BA1533_TX.vo(11278): [TFMPC] - Too few port connections. Expected 8, found 7.
+#    Time: 0 ps  Iteration: 0  Instance: /tb/DUT/a_aQUARTUS_CREATED_ADC1_a File: nofile
+# ** Warning: (vsim-3722) BA1533_TX.vo(11278): [TFMPC] - Missing connection for port 'clk_dft'.
+do C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/BA1533_TX_dump_all_vcd_nodes.tcl
+# 0
+run -all
+#                   50 test case failed
+#                  100 test case failed
+#                  150 test case failed
+#                  200 test case failed
+#                  250 test case failed
+#                  300 test case failed
+#                  350 test case failed
+#                  400 test case failed
+#                  450 test case failed
+#                  500 test case failed
+#                  550 test case failed
+#                  600 test case failed
+#                  650 test case failed
+#                  700 test case failed
+#                  750 test case failed
+#                  800 test case failed
+#                  850 test case failed
+#                  900 test case failed
+#                  950 test case failed
+# ** Note: $stop    : C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v(177)
+#    Time: 2 us  Iteration: 0  Instance: /tb
+# Break in Module tb at C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v line 177
+quit -sim
+# End time: 21:35:13 on Jun 13,2018, Elapsed time: 0:02:52
+# Errors: 0, Warnings: 4

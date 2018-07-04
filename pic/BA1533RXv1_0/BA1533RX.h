@@ -13,7 +13,7 @@
 
 #use delay(int=16000000, restart_wdt)
 #use rs232(baud=38400,parity=N,xmit=PIN_C6,rcv=PIN_C7,bits=8)
-#use rs232(baud=38400,parity=N,xmit=PIN_D6,rcv=PIN_D7,bits=8,stream=UART_CPLD)   //INVERT, RECEIVE_BUFFER=x
+#use rs232(baud=38400,parity=N,xmit=PIN_D6,rcv=PIN_D7,bits=8,stream=UART_CPLD)   //Uart to CPLD
 
 #define UINT  unsigned int16
 #define SINT  signed int16

@@ -1,0 +1,138 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim
+vBA1533_TX
+Z1 !s110 1528827545
+!i10b 1
+!s100 oDo5bTUJ7X=fZ8Sn:X]S20
+IFJVAT?kL8WW=2cd@jNK>b2
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1527685640
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v
+L0 11
+Z3 OV;L;10.4b;61
+r1
+!s85 0
+31
+Z4 !s108 1528827545.000000
+!s107 C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v|
+!i113 1
+Z5 o-vlog01compat -work work
+Z6 !s92 -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl
+n@b@a1533_@t@x
+vtb
+!s110 1528827547
+!i10b 1
+!s100 :e]=i4]mX_M3J<A`zS[E]2
+I6ICdeSZPmPC_5Z]l_jhMn2
+R2
+R0
+w1528827299
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v
+FC:/altera_lite/15.1/modelsim_ase/win32aloem/../verilog_src/vlog_waveform_edit_package/vlog_random_package.v
+L0 3
+R3
+r1
+!s85 0
+31
+!s108 1528827546.000000
+!s107 C:/altera_lite/15.1/modelsim_ase/win32aloem/../verilog_src/vlog_waveform_edit_package/vlog_random_package.v|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb
+vtx
+R1
+!i10b 1
+!s100 =lbVg_W2h8Fai[2ATC>U?3
+IEk8a:ZjQ[;@RT6Z_=cE2b0
+R2
+R0
+w1527685515
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v
+L0 6
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v|
+!i113 1
+R5
+R6
+vtx_pll
+R1
+!i10b 1
+!s100 QGja9LJoA<io0_5F:CckY2
+IkH6>l>UzPh:nV<QdZNmH93
+R2
+R0
+w1528804791
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v
+L0 40
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll
+vtx_pll_altpll
+R1
+!i10b 1
+!s100 I:lARCfHJJ<`]TaY`be[j3
+IM<h99nPTg65k49UQKLHV`0
+R2
+R0
+w1528804845
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v
+L0 30
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db
+vuart_control
+R1
+!i10b 1
+!s100 hV[cNkP]JE@E@jH^1]DLC0
+Il25=7W36=2zT43>oJg@jf3
+R2
+R0
+w1527665272
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v
+L0 8
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v|
+!i113 1
+R5
+R6

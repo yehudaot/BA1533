@@ -1,0 +1,21 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v}
+vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v}
+vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v}
+vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v}
+vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v}
+vlib uart_mcu
+vmap uart_mcu uart_mcu
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v}
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v}
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v}
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v}
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v}
+vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/uart_mcu.v}
+

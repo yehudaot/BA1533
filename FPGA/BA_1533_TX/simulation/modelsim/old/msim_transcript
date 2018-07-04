@@ -1,0 +1,176 @@
+# do BA1533_TX_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim ALTERA vmap 10.4b Lib Mapping Utility 2015.05 May 27 2015
+# vmap -modelsim_quiet work rtl_work 
+# Copying C:/altera_lite/15.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:/altera_lite/15.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/uart_control.v 
+# -- Compiling module uart_control
+# 
+# Top level modules:
+# 	uart_control
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v 
+# -- Compiling module tx
+# 
+# Top level modules:
+# 	tx
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v 
+# -- Compiling module BA1533_TX
+# 
+# Top level modules:
+# 	BA1533_TX
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v 
+# -- Compiling module tx_pll
+# 
+# Top level modules:
+# 	tx_pll
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/db/tx_pll_altpll.v 
+# -- Compiling module tx_pll_altpll
+# 
+# Top level modules:
+# 	tx_pll_altpll
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlib uart_mcu
+# ** Warning: (vlib-34) Library already exists at "uart_mcu".
+# 
+# vmap uart_mcu uart_mcu
+# Model Technology ModelSim ALTERA vmap 10.4b Lib Mapping Utility 2015.05 May 27 2015
+# vmap -modelsim_quiet uart_mcu uart_mcu 
+# Modifying modelsim.ini
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_counters.v 
+# -- Compiling module altera_up_rs232_counters
+# 
+# Top level modules:
+# 	altera_up_rs232_counters
+# End time: 21:04:34 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:34 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_in_deserializer.v 
+# -- Compiling module altera_up_rs232_in_deserializer
+# 
+# Top level modules:
+# 	altera_up_rs232_in_deserializer
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:35 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_rs232_out_serializer.v 
+# -- Compiling module altera_up_rs232_out_serializer
+# 
+# Top level modules:
+# 	altera_up_rs232_out_serializer
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:35 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/altera_up_sync_fifo.v 
+# -- Compiling module altera_up_sync_fifo
+# 
+# Top level modules:
+# 	altera_up_sync_fifo
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:35 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/submodules/uart_mcu_rs232_0.v 
+# -- Compiling module uart_mcu_rs232_0
+# 
+# Top level modules:
+# 	uart_mcu_rs232_0
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work uart_mcu +incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu {c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/uart_mcu.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:35 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work uart_mcu "+incdir+c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu" c:/ba/software_projects/fpga/1533_fpga/ba_1533_tx/db/ip/uart_mcu/uart_mcu.v 
+# -- Compiling module uart_mcu
+# 
+# Top level modules:
+# 	uart_mcu
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim {C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb.v}
+# Model Technology ModelSim ALTERA vlog 10.4b Compiler 2015.05 May 27 2015
+# Start time: 21:04:35 on Jun 12,2018
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim" C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb.v 
+# -- Compiling module tb
+# 
+# Top level modules:
+# 	tb
+# End time: 21:04:35 on Jun 12,2018, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -L uart_mcu -voptargs="+acc"  tb
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L fiftyfivenm_ver -L rtl_work -L work -L uart_mcu -voptargs=""+acc"" tb 
+# Start time: 21:04:35 on Jun 12,2018
+# Loading work.tb
+# Loading work.tx
+# ** Error (suppressible): (vsim-3053) C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb.v(12): Illegal output or inout port connection for port 'max_tx_flag'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb/DUT File: C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v
+# ** Error (suppressible): (vsim-3053) C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb.v(12): Illegal output or inout port connection for port 'tx_bit_data'.
+#    Time: 0 ps  Iteration: 0  Instance: /tb/DUT File: C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/tx.v
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./BA1533_TX_run_msim_rtl_verilog.do PAUSED at line 24
+vsim work.BA1533_TX
+# vsim work.BA1533_TX 
+# Start time: 21:04:35 on Jun 12,2018
+# Loading work.BA1533_TX
+# Loading work.tx_pll
+# ** Error: (vsim-3033) C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v(58): Instantiation of 'altpll' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /BA1533_TX/tx_pll_c File: C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/pll/tx_pll.v
+#         Searched libraries:
+#             C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/rtl_work
+# Loading work.tx
+# Loading work.uart_control
+# ** Error: (vsim-3033) C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v(89): Instantiation of 'uart_mcu' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /BA1533_TX File: C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/rtl/BA1533_TX.v
+#         Searched libraries:
+#             C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/rtl_work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./BA1533_TX_run_msim_rtl_verilog.do PAUSED at line 24
+# End time: 21:05:01 on Jun 12,2018, Elapsed time: 0:00:26
+# Errors: 4, Warnings: 0

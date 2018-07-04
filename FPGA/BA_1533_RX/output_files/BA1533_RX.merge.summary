@@ -1,0 +1,16 @@
+Partition Merge Status : Successful - Thu Jun 14 14:05:55 2018
+Quartus Prime Version : 15.1.0 Build 185 10/21/2015 SJ Lite Edition
+Revision Name : BA1533_RX
+Top-level Entity Name : BA1533_RX
+Family : MAX 10
+Total logic elements : 1,628
+    Total combinational functions : 1,590
+    Dedicated logic registers : 287
+Total registers : 287
+Total pins : 8
+Total virtual pins : 0
+Total memory bits : 2,048
+Embedded Multiplier 9-bit elements : 4
+Total PLLs : 1
+UFM blocks : 0
+ADC blocks : 0

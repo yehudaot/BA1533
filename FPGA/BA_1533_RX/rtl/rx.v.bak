@@ -1,0 +1,117 @@
+module rx (
+clk, 
+reg_data, 
+rx_bit_data, 
+rst, 
+bit_data_dd, 
+pass, 
+fail, 
+bit_data_s, 
+total_rx_counter, 
+pass_percentage, 
+bit_mode_en,
+to_uart_valid,
+to_uart_data,
+rx_128_counter
+);
+
+input clk;
+input rst;
+input [7:0] reg_data;
+input rx_bit_data;
+input bit_data_dd;
+input bit_data_s;
+input bit_mode_en;
+
+output reg to_uart_valid;
+output reg [7:0] to_uart_data;
+output reg [63:0] pass;
+output reg [63:0] fail;
+output reg [63:0] total_rx_counter;
+output reg [7:0] pass_percentage;
+output reg [6:0] rx_128_counter;
+
+reg [7:0] rx_bit_data_shift_reg;
+reg [3:0] rx_bit_data_cnt;
+reg rx_bit_data_dd;
+reg rx_bit_data_d;
+reg rx_bit_data_deru;
+//reg rx_128_counter;
+
+always@(posedge clk or posedge rst) begin     //generate uart data to send, data is *CAFE*
+	if(rst) begin
+		rx_bit_data_dd <= 1'b0;
+		rx_bit_data_d <= 1'b0;
+	end
+	else begin
+		rx_bit_data_d <= rx_bit_data;
+		rx_bit_data_dd <= rx_bit_data_d;
+		rx_bit_data_deru <= rx_bit_data_d && ~rx_bit_data_dd;
+	end
+end
+
+always@(posedge clk or posedge rst) begin     
+	if(rst) begin
+		rx_bit_data_shift_reg <= 8'h0;
+		rx_bit_data_cnt <= 4'h0;
+		pass <= 64'h0;
+		fail <= 64'h0;
+		total_rx_counter <= 64'h0;
+		rx_128_counter <= 7'h0;
+	end
+	else begin
+		if(~bit_data_dd || bit_mode_en) begin
+			rx_bit_data_shift_reg <= {rx_bit_data_shift_reg[6:0], rx_bit_data_dd};
+			rx_bit_data_cnt <= rx_bit_data_cnt + 4'h1;
+			if(rx_bit_data_shift_reg == reg_data) begin
+				pass <= pass + 64'h1;
+				rx_bit_data_cnt <= 4'h0;
+				total_rx_counter <= total_rx_counter + 64'h1;
+				rx_128_counter <= rx_128_counter + 7'h1;
+			end
+			if(rx_bit_data_cnt == 4'h8)begin
+				fail <= fail + 64'h1;
+				rx_bit_data_cnt <= 4'h0;
+				total_rx_counter <= total_rx_counter + 64'h1;
+				rx_128_counter <= rx_128_counter + 7'h1;
+			end
+		end
+		else begin
+			rx_bit_data_shift_reg <= 8'h0;
+			rx_bit_data_cnt <= 4'h0;
+			total_rx_counter <= 64'h0;
+			pass <= 64'h0;
+			fail <= 64'h0;
+			rx_128_counter <= 7'h0;
+		end
+	end
+end
+
+
+always@(posedge clk or posedge rst) begin     //calculate the percentage of good income data
+	if(rst) begin
+		pass_percentage <= 8'h0;
+	end
+	else begin
+		pass_percentage <= ((pass * 8'h64) / total_rx_counter);
+	end
+end
+
+always@(posedge clk or posedge rst) begin     //every 128 RX send percentage to MCU
+	if(rst) begin
+		to_uart_valid <= 1'b0;
+		to_uart_data <= 8'h0;
+	end
+	else if(rx_128_counter == 7'h7E) begin
+		to_uart_data <= pass_percentage;
+		to_uart_valid <= 1'b1;
+	end
+	else begin
+		to_uart_valid <= 1'b0;
+	end
+end
+
+
+
+
+endmodule

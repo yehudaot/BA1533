@@ -1,0 +1,54 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim
+vBA1533_TX
+Z1 !s110 1528914740
+!i10b 1
+!s100 g?6c5;=AVnF5z=Edk:fT=3
+IJG5YXmzM71h48:g:z_27C0
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1528830871
+8BA1533_TX.vo
+FBA1533_TX.vo
+L0 32
+Z3 OV;L;10.4b;61
+r1
+!s85 0
+31
+Z4 !s108 1528914740.000000
+!s107 BA1533_TX.vo|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+.|BA1533_TX.vo|
+!i113 1
+Z5 o-vlog01compat -work work
+!s92 -vlog01compat -work work +incdir+.
+n@b@a1533_@t@x
+vtb
+R1
+!i10b 1
+!s100 :e]=i4]mX_M3J<A`zS[E]2
+I6ICdeSZPmPC_5Z]l_jhMn2
+R2
+R0
+w1528827299
+8C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v
+FC:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v
+FC:/altera_lite/15.1/modelsim_ase/win32aloem/../verilog_src/vlog_waveform_edit_package/vlog_random_package.v
+L0 3
+R3
+r1
+!s85 0
+31
+R4
+!s107 C:/altera_lite/15.1/modelsim_ase/win32aloem/../verilog_src/vlog_waveform_edit_package/vlog_random_package.v|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb|C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb/tb.v|
+!i113 1
+R5
+!s92 -vlog01compat -work work +incdir+C:/BA/Software_projects/FPGA/1533_FPGA/BA_1533_TX/simulation/modelsim/tb

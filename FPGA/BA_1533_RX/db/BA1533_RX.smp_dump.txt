@@ -1,0 +1,10 @@
+
+State Machine - |BA1533_RX|uart_control:uart_control_c|state
+Name state.CH_REG_DATA3 state.CH_REG_DATA2 state.CH_REG_DATA1 state.CH_MAX_TX_COUNT3 state.CH_MAX_TX_COUNT2 state.CH_MAX_TX_COUNT1 state.0000 
+state.0000 0 0 0 0 0 0 0 
+state.CH_MAX_TX_COUNT1 0 0 0 0 0 1 1 
+state.CH_MAX_TX_COUNT2 0 0 0 0 1 0 1 
+state.CH_MAX_TX_COUNT3 0 0 0 1 0 0 1 
+state.CH_REG_DATA1 0 0 1 0 0 0 1 
+state.CH_REG_DATA2 0 1 0 0 0 0 1 
+state.CH_REG_DATA3 1 0 0 0 0 0 1 

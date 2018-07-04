@@ -1,10 +1,7 @@
 
 UCHAR comm_ptr; 
-UCHAR  pwr_command = 1, pa_command = setup.power_amp, on_command = 1, bit_mode = 0, auto_power = 0;
-
-int16 count_1sec = 0;
-int16 temp;
-char temp2;
+UCHAR  pa_command = setup.power_amp, on_command = 1, bit_mode = 0, auto_power = 0;
+//UINT count_1sec = 0;
 
 //-----------------------------------------------------------------------------
 UCHAR COM1_get_chr(void)
@@ -172,21 +169,94 @@ void list_help(void)
   //COM1_send_str("\r\n");
   }
 
+
+//-----------------------------------------------------------------------------
+void send_raw_status(void)
+  {
+	UCHAR buf[64] ;
+	UINT iv3p3, iv28;
+	float v3p3, v28;
+	set_adc_channel(A2D_Vdd); // select 3.3v power input
+  	delay_us(20);
+  	iv3p3 = read_adc();
+
+	set_adc_channel(A2D_POWER); // select 28v power input
+  	delay_us(20);
+  	iv28 = read_adc();
+
+	v3p3 = (float)iv3p3 / 1024.0 * 3.3;
+	v28 = (float)iv28 / 1024.0 * 36.3;  //36.3 = 3.3 * 11 
+	sprintf(buf, "\r\n3.3v power in=%2.1f(v) 28v power in=%2.1f(v)",v3p3, v28);
+	COM1_send_str(buf);
+  }
+
+
+//rssi_table[11][2];
+
 //-----------------------------------------------------------------------------
 void send_status(void)
   {
   UINT  itemp, idx, rssi;
   UCHAR buf[64] ;
   float temp ;
+  
+			//s				t		k
+  float numerator=1,denominator=1,res=0;
+
+
  
 //  UINT fwdp, revp, muxout;
 
+  //set_adc_channel(A2D_PREV); // select RSSI power input
+  //delay_us(20);
+  //rssi = read_adc();
 
   set_adc_channel(A2D_PREV); // select RSSI power input
   delay_us(20);
   rssi = read_adc();
 
-  set_adc_channel(A2D_TEMP); // select tmp power input
+
+/////rssi = a
+//rssi_table[x][0] - x
+//rssi_table[x][1] - y
+int i, j;
+for(i=0; i<n; i++)
+        {
+            numerator=1;
+            denominator=1;
+            for(j=0; j<n; j++)
+            {
+                if(j!=i)
+                {
+                    numerator=numerator*(rssi-setup.rssi_table[j][0]);
+                    denominator=denominator*(setup.rssi_table[i][0]-setup.rssi_table[j][0]);
+                }
+            }
+            res=res+((numerator/denominator)*setup.rssi_table[i][1]);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  set_adc_channel(A2D_TEMP); // select tmperature  input
   delay_us(20);
   itemp = read_adc();
 
@@ -194,20 +264,15 @@ void send_status(void)
   temp -= 0.75;
   temp *= 100;
   temp += 25.0;
-
-//  set_adc_channel(A2D_POWER); // select rssi power input
-//  delay_us(20);
-//  rssi = read_adc();
   
   for (idx = 0; idx < 10; idx++)
     if (rssi <= setup.rssi_table[idx][0])
       break;
   rssi = setup.rssi_table[idx][1];
 
-
-
   sprintf(buf, "\r\nFREQ=%lu, RSSI=%ludBM, TEMP=%5.1f(c), ID=%lu, DC=%02lu%02u, VER %ls, ",
           setup.frequency, rssi,  temp, setup.unit_ID, setup.year, setup.week, VERSION_V);
+		  //setup.frequency, resultat,  temp, setup.unit_ID, setup.year, setup.week, VERSION_V);
   COM1_send_str(buf);
 
   if(setup.meter_backlight == 1)
@@ -217,9 +282,9 @@ void send_status(void)
   COM1_send_str(buf);
  
   if(pass_count > PASS_FAIL_TRESHOLD)
-  	sprintf(buf, "PASS Bit=%ld ",pass_count);
+  	sprintf(buf, "PASS Bit=%ld, ",pass_count);
   else 
-  	sprintf(buf, "FAIL Bit=%ld ",pass_count);
+  	sprintf(buf, "FAIL Bit=%ld, ",pass_count);
   COM1_send_str(buf);
 
 
@@ -228,12 +293,6 @@ void send_status(void)
   else
     sprintf(buf, "SYNTH LOCK=NOT LOCK, ");
   COM1_send_str(buf);
-
-//  if(pa_command == 1)
-//	sprintf(buf, "POWER AMP=ON , ");
-//  else
-//    sprintf(buf, "POWER AMP=OFF , ");
-//  COM1_send_str(buf);
 
   if(bit_mode == 1)
   	sprintf(buf, "BIT MODE=START, ");
@@ -247,13 +306,14 @@ void send_status(void)
     sprintf(buf, "POWER MODE=LOW, ");
   COM1_send_str(buf);
 
-  if(auto_power)
+  if(auto_power)						//sample power_in and compare to PWR_IN_TRESHOLD, change setup.power_level ($P)
 	sprintf(buf, "AUTO_POWER=1, ");
   else
 	sprintf(buf, "AUTO_POWER=0, ");
   COM1_send_str(buf);
 
-
+	sprintf(buf, "MODULE TYPE=RX, ");
+  COM1_send_str(buf);
   }
 
 //-----------------------------------------------------------------------------
@@ -295,6 +355,19 @@ UCHAR process_dollar_commands(void)
 
     case 'F':
       freq = get_frequency();
+		if (freq >= FRQ_HI_BOT && freq <= FRQ_HI_TOP)
+               {
+         		setup.frequency = freq;
+        	 	PLL_compute_freq_parameters(freq * 10);
+         		PLL_update();             
+         		allow_write = 2975;
+         		write_setup();
+         		update_all();
+         		}
+		else
+         		COM1_send_str("\r\n$FAIL\r\n");
+		break;
+/*///////////////////in case of one software version for high and low frequence
 		if(setup.power_level)
 		{
       		if (freq >= FRQ_HI_BOT && freq <= FRQ_HI_TOP)
@@ -325,6 +398,7 @@ UCHAR process_dollar_commands(void)
 		}
 
       break;
+*/
 
     case 'O':
       if (toupper(get_char()) == 'N')
@@ -334,16 +408,12 @@ UCHAR process_dollar_commands(void)
           {
           if (idx)
             {
-            //pa_command  = 1;
-            //pwr_command = 1;
 			on_command = 1;
 			PLL_update();
             }
           else
             {
-            //pa_command  = 0;
-            //pwr_command = 0;
-			on_command = 0;
+  			on_command = 0;
 			PLL_mute();
             }
           }
@@ -373,7 +443,8 @@ UCHAR process_dollar_commands(void)
           {
           if (idx)
             {
-            pass_count = 0;
+            fpga_first_val = 1;
+			pass_count = 0;
 			bit_mode = 1;
 			output_high(BIT_MODE_EN);
 			enable_interrupts(INT_RDA2); 
@@ -396,28 +467,25 @@ UCHAR process_dollar_commands(void)
     case 'P':
       if (toupper(peek_char()) == 'S') // $PS command
         {
-        get_char(); // get rid of 'S'
+        get_char(); 				// get rid of 'S'
         idx = get_int();
               if (idx <2)
                {
                 if (idx)
-                 {
-                   pa_command  = 1;
-                 }
-                 else
-                 {
+                 pa_command  = 1;
+                else
                  pa_command  = 0;
-                 }
-					setup.power_amp = pa_command;  //yehuda add this line too
-					allow_write = 2975;          ////yehuda save LD command into EEPROM when changed
-         			write_setup();
-                 }
+
+                 setup.power_amp = pa_command;  
+	    		 allow_write = 2975;          
+         		 write_setup();
+               }
          else  
             COM1_send_str("\r\n$FAIL\r\n");               
          }
          else 							  // $P command
            set_power_level();
-		   	allow_write = 2975;          ////yehuda save LD command into EEPROM when changed
+		   	allow_write = 2975;          
          	write_setup();
          break;
 
@@ -437,7 +505,7 @@ UCHAR process_dollar_commands(void)
             setup.meter_backlight = 0;
             output_low(MET_EN);
             }
-			allow_write = 2975;          ////yehuda save LD command into EEPROM when changed
+			allow_write = 2975;          
          	write_setup();
          }
    else
@@ -471,16 +539,18 @@ UCHAR process_dollar_commands(void)
         case 'N': // negative voltage
                 if (addr <2 )
                     {
-                    setup.negative_voltage[addr] = value;
-                  }
+                    value = value * 0.3103;					//read DAC values in mv
+					setup.negative_voltage[addr] = value;
+                  	}
                else
                  COM1_send_str("\r\n$FAIL\r\n");
 
           break;
         case 'P': // positive voltage
-             if (addr <4)
+             if (addr <2)
               {
-              setup.power_in[addr] = value;
+              	value = value * 0.3103;					//read DAC values in mv
+				setup.power_in[addr] = value;
               }
            else
               COM1_send_str("\r\n$FAIL\r\n");
@@ -496,8 +566,7 @@ UCHAR process_dollar_commands(void)
           break;
 
         case 'F': // rssi table
-
-               if (addr < 10)
+               if (addr < 12)
                  {
                  setup.rssi_table[addr][0] = value;
                  value = get_int();
@@ -505,7 +574,17 @@ UCHAR process_dollar_commands(void)
                  }
              else
                  COM1_send_str("\r\n$FAIL\r\n");
+            break;
 
+
+        case 'A': // automatic mode address 0 - high treshold, 1 - low treshold table
+               if (addr < 2)
+                 {
+                 	value = value * 0.3103;
+					setup.auto_mode_tresh[addr] = value;
+                 }
+             else
+                 COM1_send_str("\r\n$FAIL\r\n");
             break;
 
         case 'V': // save parameters
@@ -543,12 +622,15 @@ UCHAR process_dollar_commands(void)
     case 'Q':
       send_status();
       break;
+	case 'R':
+      send_raw_status();
+      break;
     default:
       printf("\r\n$FAIL\r\n");
 
       return 0;
     }
-  return 0;     ///yehuda 3/6/18 was 0
+  return 0;     
   }
 
 //-----------------------------------------------------------------------------

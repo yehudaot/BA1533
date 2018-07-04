@@ -19,7 +19,7 @@
 #define FRQ_HI_TOP 5850
 
 //========== power ============================================================
-UINT  power_level, power_control;
+UINT  power_control;	 //power_level = 0, 
 
 #define A2D_POWER   8    //28v
 #define A2D_PREV    5    //rssi
@@ -28,7 +28,7 @@ UINT  power_level, power_control;
 #define A2D_Vdd     0
 
 #define PWR_IN_TRESHOLD 100
-#define PASS_FAIL_TRESHOLD 60
+#define PASS_FAIL_TRESHOLD 96
 
 #define DAC_POS_VOLT 0
 #define DAC_NEG_VOLT 1
@@ -49,7 +49,8 @@ UCHAR  TMR_10mS_Cnt;
 UCHAR  TMR_100mS_Flags;
 UCHAR  TMR_100mS_Cnt;
 UCHAR  TMR_1sec_Flags;
-UCHAR  TMR_1sec_cnt;
+//UCHAR  TMR_1sec_cnt;
+UINT count_1sec = 0;
 
 #bit TMR_1MS_KEYPAD     = TMR_1mS_Flags.0
 #bit TMR_1MS_DELAY      = TMR_1mS_Flags.1
@@ -95,6 +96,7 @@ UCHAR  TMR_1sec_cnt;
 
 UINT power_avg[4], pavgx = 0;
 int16 pass_count = 0;
+UINT fpga_first_val;
 //========== COM1 variables ===================================================
 #define COM1_RX_LEN 32
 
@@ -123,14 +125,15 @@ struct {
        UCHAR power_amp;
        UINT  frequency;
        UINT  power_level;
-       UINT  negative_voltage[3];
-       UINT  power_in[4];
+       UINT  negative_voltage[2];
+       UINT  power_in[2];
        UINT  reverse;
        UCHAR meter_backlight;
        UINT  year;
        UCHAR week;
        UINT  unit_ID;
-       UINT  rssi_table[9][2];
+       UINT  rssi_table[11][2];
+	   UINT  auto_mode_tresh[2];
 
 } setup;
 
@@ -191,13 +194,13 @@ void write_setup(void)
 void read_setup(void)
   {
   read_int_eeprom(0, &setup, sizeof(setup));
-  if (setup.frequency == 0xFFFF || setup.power_level == 0xFF)
+  if (setup.frequency == 0xFFFF)
     memset(&setup, 0, sizeof(setup));
   }
 
 //-----------------------------------------------------------------------------
 #separate
-void power_output(void)
+void power_output(void)				//function not defined yet, need to finish it.
   {
   UINT power;
 
@@ -232,37 +235,52 @@ void power_output(void)
 //    output_low(PA_ON);
 //    }
 
+
+
   if (setup.power_level)
     {
-    set_AD5312(DAC_NEG_VOLT, setup.negative_voltage[1]);
+    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[1]);
     }
   else
     {
-    set_AD5312(DAC_NEG_VOLT, setup.negative_voltage[0]);
+    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[0]);
     }
 
-  	set_adc_channel(A2D_PWR_IN); // select PWR_IN power input
-    delay_us(20);
-    power = read_adc();
-	if(power > PWR_IN_TRESHOLD)
-		{
-		output_high(VC1);
-		output_low(VC2);
-		}
-		else
-		{
-		output_low(VC1);
-		output_high(VC2);
-		}
+
 
 	if(auto_power)
 	{
-		if(power > PWR_IN_TRESHOLD)
-			setup.power_level = 1;
-		else
-			setup.power_level = 0;
+  	set_adc_channel(A2D_PWR_IN); // select PWR_IN power input
+    delay_us(20);
+    power = read_adc();
+	//if(power > 125)				//400mv  P0
+	if(power > setup.auto_mode_tresh[0])
+		{
+		output_high(VC1);
+		output_low(VC2);
+		setup.power_level = 0;
+		}
+	//else if(power < 108)		//350mv P1
+	else if(power < setup.auto_mode_tresh[1])
+		{
+		output_low(VC1);		
+		output_high(VC2);
+		setup.power_level = 1;
+		}
 	}
-
+	else 
+	{
+		if(setup.power_level)
+		{
+			output_low(VC1);
+			output_high(VC2);
+		}
+		else
+		{
+			output_high(VC1);
+			output_low(VC2);
+		}
+	}
  
   if (TMR_100MS_POWER)
     {
@@ -275,13 +293,13 @@ void power_output(void)
       pavgx = 0;
     power = (power_avg[0] + power_avg[1] + power_avg[2] + power_avg[3]) / 4;
     if (power < setup.rssi_table[0][0])
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT1);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT1);
     else if (power < setup.rssi_table[4][0])
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT2);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT2);
     else if (power < setup.rssi_table[8][0])
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT3);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT3);
     else
-      set_AD5312(DAC_POS_VOLT, METER_OUTPUT4);
+      set_AD5314(DAC_POS_VOLT, METER_OUTPUT4);
     }
   }
 
@@ -346,7 +364,7 @@ void check_bit_mode(void)
 		{
 			TMR_1Sec_BIT_EN = 0;
 			count_1sec++;
-			if(count_1sec >= 11)
+			if(count_1sec >= 6000)
 			{	
 				count_1sec = 0;
 				output_low(BIT_MODE_EN);
@@ -364,7 +382,7 @@ void main(void)
   
   read_setup();
 
-  power_level = setup.power_in[setup.power_level];
+//  power_level = setup.power_in[setup.power_level];
   power_control = 10;
 
   PLL_initialize();
@@ -375,12 +393,12 @@ void main(void)
   COM1_send_str(VERSION);
   COM1_send_str("\r\n");
 
-  set_AD5312(DAC_POS_VOLT, vouta);
+  set_AD5314(DAC_POS_VOLT, vouta);
   delay_ms(10);
   output_low(BIT_MODE_EN);
   bit_mode = 0;
-  output_high(VC1);
-  output_low(VC2);
+  output_low(VC1);
+  output_high(VC2);
   output_high(LNA_EN);
 
 #ignore_warnings 203

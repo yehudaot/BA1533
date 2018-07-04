@@ -6,7 +6,7 @@
 #define DA2_SYN   PIN_A2
 #define DA2_LAT   PIN_A1
 
-void set_AD5312(int8 channel, int16 level)
+void set_AD5314(int8 channel, int16 level)
   {
   output_low(DA2_SYN);
 
