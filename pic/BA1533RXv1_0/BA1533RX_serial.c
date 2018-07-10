@@ -188,10 +188,16 @@ void send_raw_status(void)
 	v28 = (float)iv28 / 1024.0 * 36.3;  //36.3 = 3.3 * 11 
 	sprintf(buf, "\r\n3.3v power in=%2.1f(v) 28v power in=%2.1f(v)",v3p3, v28);
 	COM1_send_str(buf);
+
+	set_adc_channel(A2D_PREV); // select RSSI power input
+    delay_us(20);
+    
+	sprintf(buf, "\r\nRSSI=%lu", read_adc());
+	COM1_send_str(buf);
   }
 
 
-//rssi_table[11][2];
+
 
 //-----------------------------------------------------------------------------
 void send_status(void)
@@ -199,63 +205,35 @@ void send_status(void)
   UINT  itemp, idx, rssi;
   UCHAR buf[64] ;
   float temp ;
-  
-			//s				t		k
-  float numerator=1,denominator=1,res=0;
-
-
  
 //  UINT fwdp, revp, muxout;
-
-  //set_adc_channel(A2D_PREV); // select RSSI power input
-  //delay_us(20);
-  //rssi = read_adc();
 
   set_adc_channel(A2D_PREV); // select RSSI power input
   delay_us(20);
   rssi = read_adc();
+ 
+  float32 numerator=1,denumerator=1,k_rssi=0;
+    int n = 11,i,j;
 
 
-/////rssi = a
-//rssi_table[x][0] - x
-//rssi_table[x][1] - y
-int i, j;
-for(i=0; i<n; i++)
+	for(i=0; i<n; i++)
         {
             numerator=1;
-            denominator=1;
+            denumerator=1;
             for(j=0; j<n; j++)
             {
                 if(j!=i)
                 {
-                    numerator=numerator*(rssi-setup.rssi_table[j][0]);
-                    denominator=denominator*(setup.rssi_table[i][0]-setup.rssi_table[j][0]);
+ 					numerator = numerator * (rssi - (float32)setup.rssi_table[j][0]);
+                    denumerator = denumerator * ((float32)setup.rssi_table[i][0] - (float32)setup.rssi_table[j][0]);
                 }
             }
-            res=res+((numerator/denominator)*setup.rssi_table[i][1]);
+            k_rssi=k_rssi+((numerator / denumerator) * (float32)setup.rssi_table[i][1]);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  if(setup.power_level)
+	k_rssi+=10;
+  	
+  
   set_adc_channel(A2D_TEMP); // select tmperature  input
   delay_us(20);
   itemp = read_adc();
@@ -264,15 +242,9 @@ for(i=0; i<n; i++)
   temp -= 0.75;
   temp *= 100;
   temp += 25.0;
-  
-  for (idx = 0; idx < 10; idx++)
-    if (rssi <= setup.rssi_table[idx][0])
-      break;
-  rssi = setup.rssi_table[idx][1];
 
-  sprintf(buf, "\r\nFREQ=%lu, RSSI=%ludBM, TEMP=%5.1f(c), ID=%lu, DC=%02lu%02u, VER %ls, ",
-          setup.frequency, rssi,  temp, setup.unit_ID, setup.year, setup.week, VERSION_V);
-		  //setup.frequency, resultat,  temp, setup.unit_ID, setup.year, setup.week, VERSION_V);
+  sprintf(buf, "\r\nFREQ=%lu, RSSI=%0.2fdBM, TEMP=%5.1f(c), ID=%lu, DC=%02lu%02u, VER %ls, ",
+		  setup.frequency, k_rssi, temp, setup.unit_ID, setup.year, setup.week, VERSION_V);
   COM1_send_str(buf);
 
   if(setup.meter_backlight == 1)
@@ -536,26 +508,41 @@ UCHAR process_dollar_commands(void)
       value = get_int(); // get value to put into table
       switch (toupper(idx))
         {
+/*		10/7/18 not used
         case 'N': // negative voltage
                 if (addr <2 )
                     {
-                    value = value * 0.3103;					//read DAC values in mv
+                    value = value * 0.2048;					//read DAC values in mv
 					setup.negative_voltage[addr] = value;
                   	}
                else
                  COM1_send_str("\r\n$FAIL\r\n");
 
           break;
+*/
+/*		10/7/18 not used
         case 'P': // positive voltage
              if (addr <2)
               {
-              	value = value * 0.3103;					//read DAC values in mv
+              	value = value * 0.2048;					//read DAC values in mv
 				setup.power_in[addr] = value;
               }
            else
               COM1_send_str("\r\n$FAIL\r\n");
           break;
+*/
+		case 'M': // 
+          if (addr < 2)
+         {
+			
+			value = value * 0.2048;				//(dacval*5v)/1024 => 1mv = 0.2048
+            setup.monitor_ctrl[addr] = value;
+         }
+            else
+                 COM1_send_str("\r\n$FAIL\r\n");
+          break;
 
+/*			10/7/18 not used
         case 'R': // rev table
          if (toupper(get_char()) == 'R')
          {
@@ -564,7 +551,7 @@ UCHAR process_dollar_commands(void)
          else
             COM1_send_str("\r\n$FAIL\r\n");
           break;
-
+*/
         case 'F': // rssi table
                if (addr < 12)
                  {

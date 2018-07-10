@@ -30,8 +30,9 @@ UINT  power_control;	 //power_level = 0,
 #define PWR_IN_TRESHOLD 100
 #define PASS_FAIL_TRESHOLD 96
 
-#define DAC_POS_VOLT 0
-#define DAC_NEG_VOLT 1
+#define DAC_POS_VOLT 2
+#define DAC_NEG_VOLT 6
+#define DAC_MON_CTRL 14
 
 #define FREQ_LOW_THRESH   22570
 #define FREQ_HIGH_THRESH  23290
@@ -125,8 +126,9 @@ struct {
        UCHAR power_amp;
        UINT  frequency;
        UINT  power_level;
-       UINT  negative_voltage[2];
-       UINT  power_in[2];
+       //UINT  negative_voltage[2];  //NOT USED
+       //UINT  power_in[2];			//NOT USED
+	   UINT  monitor_ctrl[2];		//dac port D, monitor control
        UINT  reverse;
        UCHAR meter_backlight;
        UINT  year;
@@ -145,7 +147,7 @@ void write_setup(void);
 void update_all(void);
 
 //========== include source files =============================================
-#include "AD5312.c"
+#include "AD5314.c"
 #include "ADF4350.c"
 #include "BA1533RX_intr.c"
 #include "BA1533RX_serial.c"
@@ -239,11 +241,11 @@ void power_output(void)				//function not defined yet, need to finish it.
 
   if (setup.power_level)
     {
-    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[1]);
+	set_AD5314(DAC_MON_CTRL, setup.monitor_ctrl[1]);
     }
   else
     {
-    set_AD5314(DAC_NEG_VOLT, setup.negative_voltage[0]);
+	set_AD5314(DAC_MON_CTRL, setup.monitor_ctrl[0]);
     }
 
 
@@ -281,7 +283,7 @@ void power_output(void)				//function not defined yet, need to finish it.
 			output_low(VC2);
 		}
 	}
- 
+/* 
   if (TMR_100MS_POWER)
     {
     TMR_100MS_POWER = 0;
@@ -292,6 +294,7 @@ void power_output(void)				//function not defined yet, need to finish it.
     if (++pavgx > 3)
       pavgx = 0;
     power = (power_avg[0] + power_avg[1] + power_avg[2] + power_avg[3]) / 4;
+
     if (power < setup.rssi_table[0][0])
       set_AD5314(DAC_POS_VOLT, METER_OUTPUT1);
     else if (power < setup.rssi_table[4][0])
@@ -300,7 +303,8 @@ void power_output(void)				//function not defined yet, need to finish it.
       set_AD5314(DAC_POS_VOLT, METER_OUTPUT3);
     else
       set_AD5314(DAC_POS_VOLT, METER_OUTPUT4);
-    }
+*/
+    
   }
 
 //=============================================================================
@@ -393,7 +397,7 @@ void main(void)
   COM1_send_str(VERSION);
   COM1_send_str("\r\n");
 
-  set_AD5314(DAC_POS_VOLT, vouta);
+//  set_AD5314(DAC_POS_VOLT, vouta);
   delay_ms(10);
   output_low(BIT_MODE_EN);
   bit_mode = 0;
